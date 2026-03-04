@@ -30,16 +30,9 @@ set(tests
 
 foreach(test_name ${tests})
     set(test_target "${test_dir_target}.${test_name}")
-    add_executable(${test_target})
+
+    add_beman_test(${test_target})
     add_dependencies(${test_dir_target} ${test_target})
 
     target_sources(${test_target} PRIVATE "${test_name}.test.cpp")
-    target_link_libraries(
-        ${test_target}
-        PRIVATE beman::monadics Catch2::Catch2WithMain
-    )
-
-    catch_discover_tests(${test_target}
-      TEST_PREFIX "${test_target}."
-    )
 endforeach()
