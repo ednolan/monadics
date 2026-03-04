@@ -3,7 +3,9 @@
 #ifndef BEMAN_MONADICS_DETAIL_EXTRACT_VALUE_TYPE_HPP
 #define BEMAN_MONADICS_DETAIL_EXTRACT_VALUE_TYPE_HPP
 
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <type_traits>
+#endif
 
 namespace beman::monadics::detail {
 

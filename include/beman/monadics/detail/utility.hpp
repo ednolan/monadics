@@ -3,8 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_UTILITY_HPP
 #define BEMAN_MONADICS_DETAIL_UTILITY_HPP
 
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <cstddef>
 #include <type_traits>
+#endif // BEMAN_MONADICS_MODULE_INTERFACE
 
 namespace beman::monadics::detail {
 

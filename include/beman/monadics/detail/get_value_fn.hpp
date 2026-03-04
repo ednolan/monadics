@@ -5,7 +5,9 @@
 
 #include <beman/monadics/detail/utility.hpp>
 
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <utility>
+#endif // BEMAN_MONADICS_MODULE_INTERFACE
 
 namespace beman::monadics::detail {
 
@@ -23,5 +25,7 @@ concept has_value_fn = requires {
 } || on_error<"provide Traits::value(Box) or Box::value()">;
 
 } // namespace beman::monadics::detail
+
+// #endif
 
 #endif // BEMAN_MONADICS_DETAIL_GET_VALUE_FN_HPP
