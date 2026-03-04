@@ -36,7 +36,12 @@ target_sources(
     PUBLIC FILE_SET HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+target_compile_features(beman.monadics INTERFACE cxx_std_20)
+
+set_target_properties(
+    beman.monadics
+    PROPERTIES CXX_EXTENSIONS OFF VERIFY_INTERFACE_HEADER_SETS ON
+)
 
 add_subdirectory(include/beman/monadics)
 
