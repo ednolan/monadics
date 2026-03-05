@@ -4,7 +4,8 @@ module;
 #include <type_traits>
 #include <utility>
 
-export module beman.monaidcs;
+// first thing after the Global module fragment must be a module command
+export module beman.monadics;
 
 #define BEMAN_MONADICS_MODULE_INTERFACE
 
@@ -21,7 +22,7 @@ extern "C++" {
 // #include "beman/monadics/detail/get_make_fn.hpp"
 // #include "beman/monadics/detail/get_rebind.hpp"
 // #include "beman/monadics/detail/get_rebind_error.hpp"
-#include "beman/monadics/detail/get_value_fn.hpp"
+#include <beman/monadics/detail/get_value_fn.hpp>
 // #include "beman/monadics/detail/get_value_query_fn.hpp"
 // #include "beman/monadics/detail/get_value_type.hpp"
 // #include "beman/monadics/detail/extract_value_type.hpp"
@@ -39,5 +40,5 @@ extern "C++" {
 // #include "beman/monadics/detail/same_unqualified_as.hpp"
 // #include "beman/monadics/detail/transform.hpp"
 // #include "beman/monadics/detail/transform_error.hpp"
-#include "beman/monadics/detail/utility.hpp"
+// #include "beman/monadics/detail/utility.hpp"
 }

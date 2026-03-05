@@ -8,6 +8,9 @@ if(BEMAN_USE_MODULES)
         beman.monadics
         PUBLIC FILE_SET CXX_MODULES FILES monadics.cppm
     )
+    set_source_files_properties(monadics.cppm PROPERTIES
+      COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
+    )
 else()
     add_library(beman.monadics INTERFACE)
     target_compile_features(beman.monadics INTERFACE cxx_std_20)

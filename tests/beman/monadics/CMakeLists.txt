@@ -19,7 +19,7 @@ function(add_beman_test target)
         PROPERTIES
             CXX_EXTENSIONS OFF
             CXX_STANDARD_REQUIRED ON
-            CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
+            CXX_SCAN_FOR_MODULES ON
     )
 
     catch_discover_tests(${test_target}
