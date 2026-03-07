@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_VALUE_QUERY_FN_HPP
 #define BEMAN_MONADICS_DETAIL_GET_VALUE_QUERY_FN_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/utility.hpp>
 
 #include <concepts>
@@ -26,5 +30,7 @@ concept has_value_query_fn = requires {
 } || on_error<"provide box_traits<Box>::has_value(const Box&) noexcept -> bool, or Box::has_value() noexcept -> bool">;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_VALUE_QUERY_FN_HPP

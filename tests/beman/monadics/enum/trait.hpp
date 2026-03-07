@@ -5,6 +5,9 @@
 
 #include <beman/monadics/monadics.hpp>
 
+#include <concepts>
+#include <utility>
+
 extern "C" {
 
 typedef enum {

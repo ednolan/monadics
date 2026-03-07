@@ -3,10 +3,12 @@
 #ifndef BEMAN_MONADICS_DETAIL_UTILITY_HPP
 #define BEMAN_MONADICS_DETAIL_UTILITY_HPP
 
-#ifndef BEMAN_MONADICS_MODULE_INTERFACE
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <cstddef>
 #include <type_traits>
-#endif // BEMAN_MONADICS_MODULE_INTERFACE
 
 namespace beman::monadics::detail {
 
@@ -34,5 +36,7 @@ template <typename T>
 concept deduced = !std::is_void_v<T>;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_UTILITY_HPP

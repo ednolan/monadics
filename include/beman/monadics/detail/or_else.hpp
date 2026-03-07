@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_OR_ELSE_HPP
 #define BEMAN_MONADICS_DETAIL_OR_ELSE_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <beman/monadics/detail/rebox_value.hpp>
 #include <beman/monadics/detail/invoke_with_error.hpp>
@@ -15,7 +19,7 @@ struct or_else_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename BoxTraits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename BoxTraits = get_box_traits<Box> >
         [[nodiscard]] friend inline constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires requires {
                 { invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)) } -> same_box<Box>;
@@ -39,5 +43,7 @@ struct or_else_t {
 inline constexpr or_else_t or_else{};
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_OR_ELSE_HPP

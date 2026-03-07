@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/or_else.hpp>
 
 #include <utility>
@@ -14,12 +18,12 @@ struct transform_error_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename BoxTraits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename BoxTraits = get_box_traits<Box> >
         [[nodiscard]] friend inline constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires requires {
                 requires same_box<Box,
                                   typename BoxTraits::template rebind_error<decltype(invoke_with_error(
-                                      std::forward<A>(a).fn, std::forward<Box>(box)))>>;
+                                      std::forward<A>(a).fn, std::forward<Box>(box)))> >;
             }
         {
             using NewError     = decltype(invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)));
@@ -42,5 +46,7 @@ struct transform_error_t {
 inline constexpr transform_error_t transform_error{};
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP

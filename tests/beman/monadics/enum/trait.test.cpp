@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-import beman.monadics;
-
 #include <catch2/catch_test_macros.hpp>
+
+#include "trait.hpp"
+
+#include <utility>
 
 namespace beman::monadics::tests {
 
