@@ -34,6 +34,12 @@ option(
     ${PROJECT_IS_TOP_LEVEL}
 )
 
+option(
+    BEMAN_USE_MODULES
+    "Enable modules support. Default: OFF. Values: { ON, OFF }."
+    OFF
+)
+
 # for find of beman-install-library
 # include(infra/cmake/beman-install-library-config.cmake)
 

@@ -4,8 +4,6 @@
 
 #include "trait.hpp"
 
-#include <utility>
-
 namespace beman::monadics::tests {
 
 TEST_CASE("box-trait-for") {
