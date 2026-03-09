@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_REBIND_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_GET_REBIND_ERROR_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/instance_of.hpp>
 #include <beman/monadics/detail/meta_rebind_error.hpp>
 #include <beman/monadics/detail/utility.hpp>
@@ -28,7 +32,7 @@ template <typename Box, typename Traits, typename E>
         return std::type_identity<Box>{};
     } else if constexpr (requires { Traits::error(); }) {
         // No parametric error channel — use the sentinel so has_error_channel evaluates to false.
-        return std::type_identity<no_rebind_error<Box>>{};
+        return std::type_identity<no_rebind_error<Box> >{};
     } else if constexpr (requires { get_meta_rebind_error<Box>(); }) {
         return get_meta_rebind_error<Box>();
     }
@@ -47,5 +51,7 @@ template <typename Box, typename Traits, typename E>
 using get_rebind_error_t = typename decltype(get_rebind_error<Box, Traits, E>())::type;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_REBIND_ERROR_HPP
