@@ -1,8 +1,17 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-cmake_minimum_required(VERSION 3.30...4.3)
+cmake_minimum_required(VERSION 4.2)
+
+# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_EXTENSIONS OFF)
+# set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
 set(CMAKE_LINK_DEPENDS_NO_SHARED ${BUILD_SHARED_LIBS})
+
+# if(BEMAN_USE_MODULES AND CMAKE_VERSION VERSION_GREATER_EQUAL 4.2 AND CMAKE_VERSION VERSION_LESS 4.3)
+# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+# endif()
 
 project(
     beman.monadics
@@ -23,6 +32,12 @@ option(
     BEMAN_MONADICS_BUILD_EXAMPLES
     "Enable building examples. Default: ${PROJECT_IS_TOP_LEVEL}. Values: { ON, OFF }."
     ${PROJECT_IS_TOP_LEVEL}
+)
+
+option(
+    BEMAN_USE_MODULES
+    "Enable modules support. Default: OFF. Values: { ON, OFF }."
+    OFF
 )
 
 # for find of beman-install-library

@@ -14,7 +14,13 @@ function(add_beman_test target)
         PRIVATE beman::monadics Catch2::Catch2WithMain
     )
 
-    set_target_properties(${test_target} PROPERTIES CXX_EXTENSIONS OFF)
+    set_target_properties(
+        ${test_target}
+        PROPERTIES
+            CXX_EXTENSIONS OFF
+            CXX_STANDARD_REQUIRED ON
+            CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
+    )
 
     catch_discover_tests(${test_target}
       TEST_PREFIX "${test_target}."
