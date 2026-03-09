@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_REBOX_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_REBOX_ERROR_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <beman/monadics/detail/same_box.hpp>
 
@@ -24,5 +28,7 @@ template <typename NewBox, typename Box>
 }
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_REBOX_ERROR_HPP

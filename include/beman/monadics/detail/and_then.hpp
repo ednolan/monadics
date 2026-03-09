@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_AND_THEN_HPP
 #define BEMAN_MONADICS_DETAIL_AND_THEN_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include "beman/monadics/detail/get_box_traits.hpp"
 #include "beman/monadics/detail/rebox_error.hpp"
 #include "beman/monadics/detail/invoke_with_value.hpp"
@@ -17,7 +21,7 @@ struct and_then_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box> >
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires requires {
                 { invoke_with_value(std::forward<A>(a).fn, std::forward<Box>(box)) } -> same_box<Box>;
@@ -42,5 +46,7 @@ struct and_then_t {
 inline constexpr and_then_t and_then{};
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_AND_THEN_HPP

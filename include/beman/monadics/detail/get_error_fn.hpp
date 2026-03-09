@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_ERROR_FN_HPP
 #define BEMAN_MONADICS_DETAIL_GET_ERROR_FN_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/utility.hpp>
 
 #include <utility>
@@ -26,5 +30,7 @@ concept has_error_fn = requires {
 } || on_error<"provide Traits::error(), Traits::error(Box), or Box::error()">;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_ERROR_FN_HPP

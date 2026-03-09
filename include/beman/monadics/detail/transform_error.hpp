@@ -3,6 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
 #include <beman/monadics/detail/or_else.hpp>
 
 #include <utility>
@@ -42,5 +46,7 @@ struct transform_error_t {
 inline constexpr transform_error_t transform_error{};
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
