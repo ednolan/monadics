@@ -11,9 +11,15 @@
 
 namespace beman::monadics {
 
-using detail::and_then;
 using detail::box_traits;
-using detail::get_box_traits;
+
+template <typename T>
+concept is_box = detail::is_box<T>;
+
+template <typename T>
+using get_box_traits = detail::get_box_traits<T>;
+
+using detail::and_then;
 using detail::or_else;
 using detail::transform;
 using detail::transform_error;

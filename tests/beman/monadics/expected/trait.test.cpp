@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 #include "trait.hpp"
+#include "beman/monadics/detail/invoke_with_value.hpp"
 
 #include <catch2/catch_test_macros.hpp>
 
@@ -30,6 +31,27 @@ TEST_CASE("box-trait-for-non-void-value") {
     STATIC_REQUIRE(Traits::error(Expected{10}) == 10);
     STATIC_REQUIRE(Traits::make('b') == Expected{'b'});
     STATIC_REQUIRE(Traits::make_error(1) == Expected{1});
+}
+
+template <typename Box>
+constexpr decltype(auto) value_or(Box&& box, auto&& defaultValue) noexcept {
+    using Traits = detail::get_box_traits<Box>;
+
+    if (Traits::has_value(box)) {
+        return Traits::value(std::forward<Box>(box));
+    }
+
+    if constexpr (std::invocable<decltype(defaultValue)>) {
+        return defaultValue();
+    } else {
+        return std::forward<decltype(defaultValue)>(defaultValue);
+    }
+}
+
+TEST_CASE("value_or-void") {
+    value_or(stdx::expected<void, int>{10}, [] {});
+    // constexpr auto r = value_or(stdx::expected<void, int>{10}, [] {});
+    // STATIC_REQUIRE(r == 10);
 }
 
 } // namespace beman::monadics::tests

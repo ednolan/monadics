@@ -26,7 +26,7 @@ struct beman::monadics::box_traits<Box> {
 
     [[nodiscard]] inline static constexpr Box make(value_type& v) noexcept { return &v; }
 
-    [[nodiscard]] inline static constexpr Box make_error() noexcept { return nullptr; }
+    [[nodiscard]] inline static constexpr Box make_error(auto e) noexcept { return e; }
 };
 
 #endif // BEMAN_MONADICS_RAW_PTR_TRAIT_HPP
