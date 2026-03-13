@@ -38,7 +38,13 @@ if(BEMAN_USE_MODULES)
     )
     target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
 
-    if(NOT MSVC)
+    if(MSVC)
+        set_source_files_properties(
+            detail.cppm
+            monadics.cppm
+            PROPERTIES COMPILE_OPTIONS "/wd5244"
+        )
+    else()
         set_source_files_properties(
             detail.cppm
             monadics.cppm
