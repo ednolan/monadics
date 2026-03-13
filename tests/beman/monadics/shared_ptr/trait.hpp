@@ -6,6 +6,7 @@
 #include <beman/monadics/monadics.hpp>
 
 #include <memory>
+#include <utility>
 
 template <typename T>
 struct beman::monadics::box_traits<std::shared_ptr<T>> {
