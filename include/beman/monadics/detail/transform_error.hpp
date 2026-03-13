@@ -18,12 +18,12 @@ struct transform_error_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box> >
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires requires {
                 requires same_box<Box,
                                   typename Traits::template rebind_error<decltype(invoke_with_error(
-                                      std::forward<A>(a).fn, std::forward<Box>(box)))>>;
+                                      std::forward<A>(a).fn, std::forward<Box>(box)))> >;
             }
         {
             using NewError     = decltype(invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)));
