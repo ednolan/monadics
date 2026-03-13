@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-add_library(beman.monadics_header INTERFACE)
-add_library(beman::monadics_header ALIAS beman.monadics_header)
-target_compile_features(beman.monadics_header INTERFACE cxx_std_20)
+add_library(beman.monadics INTERFACE)
+add_library(beman::monadics ALIAS beman.monadics)
+target_compile_features(beman.monadics INTERFACE cxx_std_20)
 
 if(BEMAN_USE_MODULES)
     add_library(beman.monadics_detail)
@@ -15,25 +15,28 @@ if(BEMAN_USE_MODULES)
         beman.monadics_detail
         PUBLIC FILE_SET CXX_MODULES FILES detail.cppm
     )
-    target_link_libraries(beman.monadics_detail PRIVATE beman.monadics_header)
+    target_link_libraries(beman.monadics_detail PRIVATE beman.monadics)
 
     set_target_properties(
         beman.monadics_detail
         PROPERTIES
-            CXX_EXTENSIONS OFF
+            # TODO(CK): why? CXX_EXTENSIONS OFF
             CXX_VISIBILITY_PRESET hidden
             VERIFY_INTERFACE_HEADER_SETS OFF
             VISIBILITY_INLINES_HIDDEN ON
     )
 
-    add_library(beman.monadics)
-    target_compile_features(beman.monadics PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
-    target_compile_definitions(beman.monadics PUBLIC BEMAN_USE_MODULES)
+    add_library(beman.monadics_module)
+    target_compile_features(
+        beman.monadics_module
+        PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
+    )
+    target_compile_definitions(beman.monadics_module PUBLIC BEMAN_USE_MODULES)
     target_sources(
-        beman.monadics
+        beman.monadics_module
         PUBLIC FILE_SET CXX_MODULES FILES monadics.cppm
     )
-    target_link_libraries(beman.monadics PRIVATE beman.monadics_detail)
+    target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
 
     set_source_files_properties(
         detail.cppm
@@ -41,8 +44,8 @@ if(BEMAN_USE_MODULES)
         PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
     )
 
-    target_link_libraries(beman.monadics PUBLIC beman.monadics_header)
-    add_library(beman::monadics ALIAS beman.monadics)
+    target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
+    add_library(beman::monadics_module ALIAS beman.monadics_module)
 endif()
 
 # target_compile_definitions(
@@ -55,16 +58,16 @@ endif()
 # )
 
 set_target_properties(
-    beman.monadics_header
+    beman.monadics
     PROPERTIES
-        CXX_EXTENSIONS OFF
+        # TODO(CK): why? CXX_EXTENSIONS OFF
         CXX_VISIBILITY_PRESET hidden
-        VERIFY_INTERFACE_HEADER_SETS ON
+        VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
         VISIBILITY_INLINES_HIDDEN ON
 )
 
 target_sources(
-    beman.monadics_header
+    beman.monadics
     PUBLIC
         FILE_SET HEADERS
             BASE_DIRS ${PROJECT_SOURCE_DIR}/include
@@ -100,7 +103,7 @@ target_sources(
 )
 
 target_sources(
-    beman.monadics_header
+    beman.monadics
     PUBLIC
         FILE_SET HEADERS
             BASE_DIRS ${PROJECT_SOURCE_DIR}/include

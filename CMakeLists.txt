@@ -46,14 +46,12 @@ include(infra/cmake/beman-install-library.cmake)
 add_subdirectory(src/beman/monadics)
 
 if(BEMAN_USE_MODULES)
-    set(beman_monadics_target beman.monadics)
-    # XXX set(beman_monadics_detail_target beman.monadics_detail)
+    set(beman_monadics_target beman.monadics_module)
 else()
-    set(beman_monadics_target beman.monadics_header)
-    # XXX set(beman_monadics_detail_target beman.monadics_header)
+    set(beman_monadics_target beman.monadics)
 endif()
 
-beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_detail beman.monadics_header)
+beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_detail beman.monadics_module)
 
 if(BEMAN_MONADICS_BUILD_TESTS)
     enable_testing()
