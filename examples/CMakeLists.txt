@@ -9,7 +9,7 @@ foreach(example ${ALL_EXAMPLES})
     target_sources(beman.monadics.examples.${example} PRIVATE ${example}.cpp)
     target_link_libraries(
         beman.monadics.examples.${example}
-        PRIVATE beman::monadics
+        PRIVATE ${beman_monadics_target}
     )
 
     set_target_properties(

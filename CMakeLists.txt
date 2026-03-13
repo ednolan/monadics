@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-cmake_minimum_required(VERSION 4.2)
+cmake_minimum_required(VERSION 4.2...4.3)
 
-# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD 23)
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(CMAKE_CXX_EXTENSIONS OFF)
+# set(CMAKE_CXX_EXTENSIONS ON)
 # set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
 set(CMAKE_LINK_DEPENDS_NO_SHARED ${BUILD_SHARED_LIBS})
@@ -44,6 +44,14 @@ option(
 # include(infra/cmake/beman-install-library-config.cmake)
 
 add_subdirectory(src/beman/monadics)
+
+if(BEMAN_USE_MODULES)
+    set(beman_monadics_target beman.monadics)
+    set(beman_monadics_detail_target beman.monadics.detail)
+else()
+    set(beman_monadics_target beman.monadics_header)
+    set(beman_monadics_detail_target beman.monadics_header)
+endif()
 
 # beman_install_library(beman.monadics)
 

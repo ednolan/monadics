@@ -11,7 +11,7 @@ function(add_beman_test target)
     add_executable(${test_target})
     target_link_libraries(
         ${test_target}
-        PRIVATE beman::monadics Catch2::Catch2WithMain
+        PRIVATE ${beman_monadics_target} Catch2::Catch2WithMain
     )
 
     set_target_properties(

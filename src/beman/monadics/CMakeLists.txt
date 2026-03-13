@@ -1,8 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+add_library(beman.monadics_header INTERFACE)
+add_library(beman::monadics_header ALIAS beman.monadics_header)
+target_compile_features(beman.monadics_header INTERFACE cxx_std_20)
+
 if(BEMAN_USE_MODULES)
     add_library(beman.monadics.detail)
-    target_compile_features(beman.monadics.detail PUBLIC cxx_std_20)
+    target_compile_features(
+        beman.monadics.detail
+        PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
+    )
     target_compile_definitions(beman.monadics.detail PUBLIC BEMAN_USE_MODULES)
     target_sources(
         beman.monadics.detail
@@ -14,12 +21,13 @@ if(BEMAN_USE_MODULES)
         PROPERTIES
             CXX_EXTENSIONS OFF
             CXX_VISIBILITY_PRESET hidden
-            VERIFY_INTERFACE_HEADER_SETS ON
+            VERIFY_INTERFACE_HEADER_SETS OFF
             VISIBILITY_INLINES_HIDDEN ON
     )
+    target_link_libraries(beman.monadics.detail PRIVATE beman.monadics_header)
 
     add_library(beman.monadics)
-    target_compile_features(beman.monadics PUBLIC cxx_std_20)
+    target_compile_features(beman.monadics PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
     target_compile_definitions(beman.monadics PUBLIC BEMAN_USE_MODULES)
     target_sources(
         beman.monadics
@@ -34,17 +42,9 @@ if(BEMAN_USE_MODULES)
         PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
     )
 
-    set(beman_monadics_target beman.monadics)
-    set(beman_monadics_detail_target beman.monadics.detail)
-else()
-    add_library(beman.monadics INTERFACE)
-    target_compile_features(beman.monadics INTERFACE cxx_std_20)
-
-    set(beman_monadics_target beman.monadics)
-    set(beman_monadics_detail_target beman.monadics)
+    target_link_libraries(beman.monadics PUBLIC beman.monadics_header)
+    add_library(beman::monadics ALIAS beman.monadics)
 endif()
-
-add_library(beman::monadics ALIAS beman.monadics)
 
 # target_compile_definitions(
 # ${BEMAN_EXECUTION_TARGET_PREFIX}
@@ -56,7 +56,7 @@ add_library(beman::monadics ALIAS beman.monadics)
 # )
 
 set_target_properties(
-    ${beman_monadics_target}
+    beman.monadics_header
     PROPERTIES
         CXX_EXTENSIONS OFF
         CXX_VISIBILITY_PRESET hidden
@@ -65,7 +65,7 @@ set_target_properties(
 )
 
 target_sources(
-    ${beman_monadics_detail_target}
+    beman.monadics_header
     PUBLIC
         FILE_SET HEADERS
             BASE_DIRS ${PROJECT_SOURCE_DIR}/include
@@ -101,7 +101,7 @@ target_sources(
 )
 
 target_sources(
-    ${beman_monadics_target}
+    beman.monadics_header
     PUBLIC
         FILE_SET HEADERS
             BASE_DIRS ${PROJECT_SOURCE_DIR}/include
