@@ -5,26 +5,26 @@ add_library(beman::monadics_header ALIAS beman.monadics_header)
 target_compile_features(beman.monadics_header INTERFACE cxx_std_20)
 
 if(BEMAN_USE_MODULES)
-    add_library(beman.monadics.detail)
+    add_library(beman.monadics_detail)
     target_compile_features(
-        beman.monadics.detail
+        beman.monadics_detail
         PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
     )
-    target_compile_definitions(beman.monadics.detail PUBLIC BEMAN_USE_MODULES)
+    target_compile_definitions(beman.monadics_detail PUBLIC BEMAN_USE_MODULES)
     target_sources(
-        beman.monadics.detail
+        beman.monadics_detail
         PUBLIC FILE_SET CXX_MODULES FILES detail.cppm
     )
+    target_link_libraries(beman.monadics_detail PRIVATE beman.monadics_header)
 
     set_target_properties(
-        beman.monadics.detail
+        beman.monadics_detail
         PROPERTIES
             CXX_EXTENSIONS OFF
             CXX_VISIBILITY_PRESET hidden
             VERIFY_INTERFACE_HEADER_SETS OFF
             VISIBILITY_INLINES_HIDDEN ON
     )
-    target_link_libraries(beman.monadics.detail PRIVATE beman.monadics_header)
 
     add_library(beman.monadics)
     target_compile_features(beman.monadics PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
@@ -33,8 +33,7 @@ if(BEMAN_USE_MODULES)
         beman.monadics
         PUBLIC FILE_SET CXX_MODULES FILES monadics.cppm
     )
-
-    target_link_libraries(beman.monadics PRIVATE beman.monadics.detail)
+    target_link_libraries(beman.monadics PRIVATE beman.monadics_detail)
 
     set_source_files_properties(
         detail.cppm
