@@ -17,7 +17,7 @@ function(add_beman_test target)
     set_target_properties(
         ${test_target}
         PROPERTIES
-            CXX_EXTENSIONS OFF
+            # TODO(CK): why? CXX_EXTENSIONS OFF
             CXX_STANDARD_REQUIRED ON
             CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
     )

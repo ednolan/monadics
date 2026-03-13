@@ -15,7 +15,7 @@ foreach(example ${ALL_EXAMPLES})
     set_target_properties(
         beman.monadics.examples.${example}
         PROPERTIES
-            CXX_EXTENSIONS OFF
+            # TODO(CK): why? CXX_EXTENSIONS OFF
             CXX_STANDARD_REQUIRED ON
             CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
     )

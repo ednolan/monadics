@@ -38,11 +38,13 @@ if(BEMAN_USE_MODULES)
     )
     target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
 
-    set_source_files_properties(
-        detail.cppm
-        monadics.cppm
-        PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
-    )
+    if(NOT MSVC)
+        set_source_files_properties(
+            detail.cppm
+            monadics.cppm
+            PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
+        )
+    endif()
 
     target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
     add_library(beman::monadics_module ALIAS beman.monadics_module)
