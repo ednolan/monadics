@@ -19,7 +19,7 @@ struct or_else_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename BoxTraits = get_box_traits<Box> >
+        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box> >
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires requires {
                 { invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)) } -> same_box<Box>;
