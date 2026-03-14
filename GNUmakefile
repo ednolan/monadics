@@ -3,7 +3,7 @@
 .SUFFIXES:
 
 MAKEFLAGS+= --no-builtin-rules  # Disable the built-in implicit rules.
-# MAKEFLAGS+= --warn-undefined-variables  # Warn when an undefined variable is referenced.
+MAKEFLAGS+= --warn-undefined-variables  # Warn when an undefined variable is referenced.
 
 export hostSystemName=$(shell uname)
 
@@ -47,12 +47,12 @@ build/compile_commands.json: CMakeLists.txt GNUmakefile
 	 -D BEMAN_USE_MODULES=YES \
 	 -D BEMAN_USE_STD_MODULE=NO \
 	 -D CMAKE_BUILD_TYPE=Release \
-	 -D CMAKE_CXX_STANDARD=23 -D CMAKE_CXX_EXTENSIONS=OFF -D CMAKE_CXX_STANDARD_REQUIRED=YES \
+	 -D CMAKE_CXX_STANDARD=23 -D CMAKE_CXX_EXTENSIONS=ON -D CMAKE_CXX_STANDARD_REQUIRED=YES \
 	 -D CMAKE_INSTALL_MESSAGE=LAZY \
 	 -D CMAKE_SKIP_INSTALL_RULES=NO \
 	 -D BEMAN_MONADICS_BUILD_TESTS=YES \
+	 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=./infra/cmake/use-fetch-content.cmake \
 	 --log-level=VERBOSE --fresh \
-	 # -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=./infra/cmake/use-fetch-content.cmake \
 	 # -D CMAKE_CXX_FLAGS='-fno-inline --coverage' \
 	 # --trace-expand --trace-source=use-fetch-content.cmake \
 	 # --debug-find-pkg=GTest
@@ -60,19 +60,6 @@ build/compile_commands.json: CMakeLists.txt GNUmakefile
 install: build/cmake_install.cmake
 	${CMAKE} --install build
 
-# ==========================================================
-CMakeUserPresets.json: cmake/CMakeUserPresets.json
-	ln -s $< $@
-
-release: build/$(hostSystemName)/release/compile_commands.json
-	${CMAKE} --workflow --preset release
-	touch $@
-
-build/$(hostSystemName)/release/compile_commands.json: CMakeUserPresets.json CMakeLists.txt GNUmakefile
-	${CMAKE} --version
-	${CMAKE} --preset release --log-level=VERBOSE --fresh
-	ln -fs build/$(hostSystemName)/release/compile_commands.json .
-# ==========================================================
 
 distclean: # XXX clean
 	rm -rf build stagedir compile_commands.json
