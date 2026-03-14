@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+#include "beman/monadics/detail/box_traits.hpp"
 #include <beman/monadics/detail/invoke_with_value.hpp>
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <type_traits>
 #include <variant>
 #include <utility>
 

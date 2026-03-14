@@ -3,6 +3,7 @@
 #include <beman/monadics/detail/same_unqualified_as.hpp>
 
 #include <catch2/catch_template_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 namespace beman::monadics::detail::tests {
 

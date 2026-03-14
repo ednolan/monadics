@@ -2,6 +2,8 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 #include <beman/monadics/detail/get_value_fn.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <concepts>
 #include <utility>
 
 namespace beman::monadics::detail::tests {

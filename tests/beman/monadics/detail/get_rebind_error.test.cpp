@@ -3,6 +3,8 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 #include <beman/monadics/detail/get_rebind_error.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <concepts>
 
 namespace beman::monadics::detail::tests {
 

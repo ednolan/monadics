@@ -3,6 +3,7 @@
 #include <beman/monadics/detail/as_pointer.hpp>
 
 #include <catch2/catch_test_macros.hpp>
+#include <concepts>
 
 namespace beman::monadics::detail::tests {
 

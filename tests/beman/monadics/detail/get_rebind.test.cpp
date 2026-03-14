@@ -4,6 +4,8 @@
 
 #include <beman/monadics/detail/get_rebind.hpp>
 
+#include <catch2/catch_test_macros.hpp>
+#include <concepts>
 #include <optional>
 
 namespace beman::monadics::detail::tests {

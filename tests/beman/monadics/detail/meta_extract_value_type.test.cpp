@@ -4,7 +4,10 @@
 
 #include <catch2/catch_template_test_macros.hpp>
 
+#include <catch2/catch_test_macros.hpp>
+#include <concepts>
 #include <optional>
+#include <type_traits>
 #include <vector>
 
 namespace beman::monadics::detail::tests {
