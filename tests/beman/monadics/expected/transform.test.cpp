@@ -3,7 +3,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <concepts>
 
-#include "beman/monadics/monadics.hpp"
 #include "trait.hpp"
 
 namespace beman::monadics::tests {

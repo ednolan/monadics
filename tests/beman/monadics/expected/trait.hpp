@@ -5,9 +5,9 @@
 
 #include <beman/monadics/monadics.hpp>
 
+#include <concepts>
 #include <type_traits>
 #include <utility>
-#include <concepts>
 
 namespace stdx {
 

@@ -4,8 +4,8 @@
 #include <concepts>
 #include <memory>
 
-#include "trait.hpp"
 #include "beman/monadics/monadics.hpp"
+#include "trait.hpp"
 
 namespace beman::monadics::tests {
 

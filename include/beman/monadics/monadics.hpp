@@ -7,13 +7,13 @@
 import beman.monadics;
 #else
 
-#ifndef BEMAN_MONADICS_MODULE_INTERFACE
-#include <beman/monadics/detail/get_box_traits.hpp>
-#include <beman/monadics/detail/and_then.hpp>
-#include <beman/monadics/detail/or_else.hpp>
-#include <beman/monadics/detail/transform.hpp>
-#include <beman/monadics/detail/transform_error.hpp>
-#endif
+    #ifndef BEMAN_MONADICS_MODULE_INTERFACE
+        #include <beman/monadics/detail/and_then.hpp>
+        #include <beman/monadics/detail/get_box_traits.hpp>
+        #include <beman/monadics/detail/or_else.hpp>
+        #include <beman/monadics/detail/transform.hpp>
+        #include <beman/monadics/detail/transform_error.hpp>
+    #endif
 
 namespace beman::monadics {
 

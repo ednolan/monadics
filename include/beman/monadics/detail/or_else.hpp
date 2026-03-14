@@ -7,10 +7,10 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/get_box_traits.hpp>
-#include <beman/monadics/detail/rebox_value.hpp>
-#include <beman/monadics/detail/invoke_with_error.hpp>
-#include <beman/monadics/detail/same_box.hpp>
+    #include <beman/monadics/detail/get_box_traits.hpp>
+    #include <beman/monadics/detail/invoke_with_error.hpp>
+    #include <beman/monadics/detail/rebox_value.hpp>
+    #include <beman/monadics/detail/same_box.hpp>
 
 namespace beman::monadics::detail {
 

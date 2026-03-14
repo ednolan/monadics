@@ -7,10 +7,10 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/same_unqualified_as.hpp>
-#include <beman/monadics/detail/get_box_traits.hpp>
+    #include <beman/monadics/detail/get_box_traits.hpp>
+    #include <beman/monadics/detail/same_unqualified_as.hpp>
 
-#include <concepts>
+    #include <concepts>
 
 namespace beman::monadics::detail {
 

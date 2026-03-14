@@ -7,9 +7,9 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/decomposable.hpp>
+    #include <beman/monadics/detail/decomposable.hpp>
 
-#include <type_traits>
+    #include <type_traits>
 
 namespace beman::monadics::detail {
 

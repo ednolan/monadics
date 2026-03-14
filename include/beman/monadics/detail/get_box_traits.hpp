@@ -7,18 +7,18 @@
 import beman.monadics.detail;
 #else
 
-#include <type_traits>
+    #include <type_traits>
 
-#include <beman/monadics/detail/box_traits.hpp>
-#include <beman/monadics/detail/get_error_fn.hpp>
-#include <beman/monadics/detail/get_error_type.hpp>
-#include <beman/monadics/detail/get_make_error_fn.hpp>
-#include <beman/monadics/detail/get_make_fn.hpp>
-#include <beman/monadics/detail/get_rebind.hpp>
-#include <beman/monadics/detail/get_rebind_error.hpp>
-#include <beman/monadics/detail/get_value_fn.hpp>
-#include <beman/monadics/detail/get_value_query_fn.hpp>
-#include <beman/monadics/detail/get_value_type.hpp>
+    #include <beman/monadics/detail/box_traits.hpp>
+    #include <beman/monadics/detail/get_error_fn.hpp>
+    #include <beman/monadics/detail/get_error_type.hpp>
+    #include <beman/monadics/detail/get_make_error_fn.hpp>
+    #include <beman/monadics/detail/get_make_fn.hpp>
+    #include <beman/monadics/detail/get_rebind.hpp>
+    #include <beman/monadics/detail/get_rebind_error.hpp>
+    #include <beman/monadics/detail/get_value_fn.hpp>
+    #include <beman/monadics/detail/get_value_query_fn.hpp>
+    #include <beman/monadics/detail/get_value_type.hpp>
 
 namespace beman::monadics::detail {
 

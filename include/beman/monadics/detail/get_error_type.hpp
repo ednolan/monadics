@@ -7,10 +7,10 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/instance_of.hpp>
-#include <beman/monadics/detail/utility.hpp>
+    #include <beman/monadics/detail/instance_of.hpp>
+    #include <beman/monadics/detail/utility.hpp>
 
-#include <type_traits>
+    #include <type_traits>
 
 namespace beman::monadics::detail {
 

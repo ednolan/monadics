@@ -7,7 +7,7 @@
 import beman.monadics.detail;
 #else
 
-#include <type_traits>
+    #include <type_traits>
 
 namespace beman::monadics::detail {
 

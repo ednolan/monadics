@@ -6,9 +6,9 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 #include <catch2/catch_test_macros.hpp>
+#include <optional>
 #include <utility>
 #include <variant>
-#include <optional>
 
 template <typename T, typename E>
 struct Box : std::variant<T, E> {

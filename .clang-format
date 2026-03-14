@@ -1,4 +1,9 @@
 ---
+BasedOnStyle:    LLVM
+Language:        Json
+IndentWidth:     2
+UseTab:          Never
+---
 Language:        Cpp
 
 # BreakBinaryOperations: OnePerLine
@@ -133,7 +138,7 @@ IndentCaseBlocks: false
 IndentCaseLabels: false
 IndentExternBlock: AfterExternBlock
 IndentGotoLabels: true
-IndentPPDirectives: None
+IndentPPDirectives: BeforeHash
 IndentRequiresClause: true
 IndentWidth:     4
 IndentWrappedFunctionNames: false
@@ -192,7 +197,7 @@ RequiresClausePosition: OwnLine
 RequiresExpressionIndentation: OuterScope
 SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 1
-SortIncludes:    Never
+SortIncludes:    true
 SortJavaStaticImport: Before
 SortUsingDeclarations: LexicographicNumeric
 SpaceAfterCStyleCast: false

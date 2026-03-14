@@ -7,7 +7,7 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/as_pointer.hpp>
+    #include <beman/monadics/detail/as_pointer.hpp>
 
 namespace beman::monadics::detail {
 

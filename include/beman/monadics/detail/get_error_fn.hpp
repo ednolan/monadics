@@ -7,9 +7,9 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/utility.hpp>
+    #include <beman/monadics/detail/utility.hpp>
 
-#include <utility>
+    #include <utility>
 
 namespace beman::monadics::detail {
 

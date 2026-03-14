@@ -7,10 +7,10 @@
 import beman.monadics.detail;
 #else
 
-#include "beman/monadics/detail/get_box_traits.hpp"
+    #include "beman/monadics/detail/get_box_traits.hpp"
 
-#include <concepts>
-#include <utility>
+    #include <concepts>
+    #include <utility>
 
 namespace beman::monadics::detail {
 

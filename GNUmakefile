@@ -44,7 +44,7 @@ all: build/compile_commands.json
 build/compile_commands.json: CMakeLists.txt GNUmakefile
 	${CMAKE} --version
 	${CMAKE} -S . -B build -G Ninja \
-	 -D BEMAN_USE_MODULES=NO \
+	 -D BEMAN_USE_MODULES=YES \
 	 -D BEMAN_USE_STD_MODULE=NO \
 	 -D CMAKE_BUILD_TYPE=Release \
 	 -D CMAKE_CXX_STANDARD=23 -D CMAKE_CXX_EXTENSIONS=OFF -D CMAKE_CXX_STANDARD_REQUIRED=YES \

@@ -8,8 +8,8 @@
 import beman.monadics.detail;
 #else
 
-#include <beman/monadics/detail/as_pointer.hpp>
-#include <beman/monadics/detail/decomposable.hpp>
+    #include <beman/monadics/detail/as_pointer.hpp>
+    #include <beman/monadics/detail/decomposable.hpp>
 
 namespace beman::monadics::detail {
 
