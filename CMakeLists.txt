@@ -40,9 +40,6 @@ option(
     OFF
 )
 
-# for find of beman-install-library
-include(infra/cmake/beman-install-library.cmake)
-
 add_subdirectory(src/beman/monadics)
 
 if(BEMAN_USE_MODULES)
@@ -51,6 +48,7 @@ else()
     set(beman_monadics_target beman.monadics)
 endif()
 
+include(infra/cmake/beman-install-library.cmake)
 beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_detail beman.monadics_module)
 
 if(BEMAN_MONADICS_BUILD_TESTS)

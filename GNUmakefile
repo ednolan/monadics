@@ -6,13 +6,13 @@ MAKEFLAGS+= --no-builtin-rules  # Disable the built-in implicit rules.
 MAKEFLAGS+= --warn-undefined-variables  # Warn when an undefined variable is referenced.
 
 export hostSystemName=$(shell uname)
+# FIXME: export CMAKE:="${HOME}/.local/bin/cmake" # cmake v4.3
 
 ifeq (${hostSystemName},Darwin)
   export LLVM_PREFIX:=$(shell brew --prefix llvm)
   export LLVM_DIR:=$(shell realpath ${LLVM_PREFIX})
   export PATH:=${LLVM_DIR}/bin:${PATH}
-  CMAKE=cmake
-  #XXX CMAKE?=${HOME}/.local/bin/cmake
+  CMAKE?=cmake
 
   #NO! export CMAKE_CXX_STDLIB_MODULES_JSON:=${LLVM_DIR}/lib/c++/libc++.modules.json
   #NO! export CXXFLAGS:=-stdlib=libc++
@@ -32,7 +32,7 @@ else ifeq (${hostSystemName},Linux)
   export LLVM_DIR:=/usr/lib/llvm-20
   export PATH:=${LLVM_DIR}/bin:${PATH}
   export CXX:=clang++-20
-  CMAKE=cmake
+  CMAKE?=cmake
 endif
 
 .PHONY: all install coverage gclean distclean format demo
