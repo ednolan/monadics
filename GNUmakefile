@@ -6,7 +6,7 @@ MAKEFLAGS+= --no-builtin-rules  # Disable the built-in implicit rules.
 MAKEFLAGS+= --warn-undefined-variables  # Warn when an undefined variable is referenced.
 
 export hostSystemName=$(shell uname)
-# FIXME: export CMAKE:="${HOME}/.local/bin/cmake" # cmake v4.3
+export CMAKE:="${HOME}/.local/bin/cmake" # cmake v4.3
 
 ifeq (${hostSystemName},Darwin)
   export LLVM_PREFIX:=$(shell brew --prefix llvm)
@@ -15,7 +15,7 @@ ifeq (${hostSystemName},Darwin)
   CMAKE?=cmake
 
   #NO! export CMAKE_CXX_STDLIB_MODULES_JSON:=${LLVM_DIR}/lib/c++/libc++.modules.json
-  #NO! export CXXFLAGS:=-stdlib=libc++
+  export CXXFLAGS:=-stdlib=libc++
   export LDFLAGS:=-L$(LLVM_DIR)/lib/c++ -lc++abi # XXX -lc++
   export CXX:=clang++
   export GCOV:="llvm-cov gcov"
@@ -45,7 +45,7 @@ build/compile_commands.json: CMakeLists.txt GNUmakefile
 	${CMAKE} --version
 	${CMAKE} -S . -B build -G Ninja \
 	 -D BEMAN_USE_MODULES=YES \
-	 -D BEMAN_USE_STD_MODULE=NO \
+	 -D BEMAN_USE_STD_MODULE=YES \
 	 -D CMAKE_BUILD_TYPE=Release \
 	 -D CMAKE_CXX_STANDARD=23 -D CMAKE_CXX_EXTENSIONS=ON -D CMAKE_CXX_STANDARD_REQUIRED=YES \
 	 -D CMAKE_INSTALL_MESSAGE=LAZY \

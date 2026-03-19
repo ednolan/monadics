@@ -9,9 +9,16 @@ cmake_minimum_required(VERSION 4.2...4.3)
 
 set(CMAKE_LINK_DEPENDS_NO_SHARED ${BUILD_SHARED_LIBS})
 
-# if(BEMAN_USE_MODULES AND CMAKE_VERSION VERSION_GREATER_EQUAL 4.2 AND CMAKE_VERSION VERSION_LESS 4.3)
-# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-# endif()
+# gersemi: off
+# ---------------------------------------------------------------------------
+# check if import std; is supported by CMAKE_CXX_COMPILER
+# ---------------------------------------------------------------------------
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3 AND CMAKE_VERSION VERSION_LESS 4.4)
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
+elseif(CMAKE_VERSION VERSION_GREATER_EQUAL 4.2 AND CMAKE_VERSION VERSION_LESS 4.3)
+    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+endif()
+# gersemi: on
 
 project(
     beman.monadics
@@ -51,8 +58,9 @@ endif()
 include(infra/cmake/beman-install-library.cmake)
 beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_detail beman.monadics_module)
 
+enable_testing()
+
 if(BEMAN_MONADICS_BUILD_TESTS)
-    enable_testing()
     add_subdirectory(tests/beman/monadics)
 endif()
 

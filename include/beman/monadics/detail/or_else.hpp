@@ -14,6 +14,25 @@ import beman.monadics.detail;
 
 namespace beman::monadics::detail {
 
+    // ChatGPT: Many modern libraries (ranges-style) avoid friend entirely by using
+    // CPOs (customization point objects) like this:
+    #undef USE_CPO
+    #ifdef USE_CPO
+
+struct or_else_fn {
+    template <class E, class F>
+    auto operator()(E&& e, F&& f) const {
+        if (!e.has_value()) {
+            return f(e.error());
+        }
+        return std::forward<E>(e);
+    }
+};
+
+inline constexpr or_else_fn or_else{};
+
+    #else
+
 struct or_else_t {
     template <typename Fn>
     struct action {
@@ -41,6 +60,8 @@ struct or_else_t {
 };
 
 inline constexpr or_else_t or_else{};
+
+    #endif
 
 } // namespace beman::monadics::detail
 
