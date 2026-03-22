@@ -21,12 +21,9 @@ using rebind =
 } // namespace _same_box
 
 template <typename T, typename U>
-concept same_box = requires {
-    requires is_box<T>;
-    requires is_box<U>;
-
-    requires std::same_as<std::remove_cvref_t<T>, _same_box::rebind<get_box_traits<T>, get_box_traits<U>>>;
-};
+concept same_box = is_box<T>
+                && is_box<U>
+                && std::same_as<std::remove_cvref_t<T>, _same_box::rebind<get_box_traits<T>, get_box_traits<U>>>;
 
 } // namespace beman::monadics::detail
 
