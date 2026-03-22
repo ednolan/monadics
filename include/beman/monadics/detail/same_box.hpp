@@ -25,6 +25,10 @@ concept same_box = is_box<T>
                 && is_box<U>
                 && std::same_as<std::remove_cvref_t<T>, _same_box::rebind<get_box_traits<T>, get_box_traits<U>>>;
 
+template <typename T, typename U>
+concept same_box_and_error =
+    same_box<T, U> && std::same_as<typename get_box_traits<T>::error_type, typename get_box_traits<U>::error_type>;
+
 } // namespace beman::monadics::detail
 
 #endif // BEMAN_MONADICS_DETAIL_SAME_BOX_HPP

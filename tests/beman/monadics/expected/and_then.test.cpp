@@ -74,6 +74,8 @@ TEST_CASE("with-value-return-void-with-error") {
     STATIC_REQUIRE(result.error() == 5.0);
 }
 
+struct ChangedError {};
+
 TEMPLATE_TEST_CASE_SIG(
     "keep-value-category",
     "",
@@ -84,6 +86,10 @@ TEMPLATE_TEST_CASE_SIG(
         stdx::expected<int, double>&, [](int&&) { return stdx::expected<int, double>{10}; }, false),
     (
         stdx::expected<int, double>&&, [](int&&) { return stdx::expected<int, double>{10}; }, true),
+    (
+        stdx::expected<int, double>&&, [](int&&) { return stdx::expected<int, ChangedError>{10}; }, false),
+    (
+        stdx::expected<int, double>&&, [](int&&) { return stdx::expected<int, float>{10}; }, false),
     (
         stdx::expected<int, double>&&, [](int&) { return stdx::expected<int, double>{10}; }, false),
     (
