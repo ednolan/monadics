@@ -9,6 +9,15 @@
 
 namespace beman::monadics::detail {
 
+template <typename NewError, typename Box>
+concept transform_errorable_return = same_box<Box, typename get_box_traits<Box>::template rebind_error<NewError>>
+                                  || on_error<"transform_error: fn must return a type compatible with rebind_error">;
+
+template <typename Box, typename Fn>
+concept transform_errorable_impl =
+    (has_error_channel<Box> || on_error<"transform_error requires has_error_channel">)
+    && transform_errorable_return<decltype(invoke_with_error(std::declval<Fn>(), std::declval<Box>())), Box>;
+
 struct transform_error_t {
     template <typename Fn>
     struct action {
@@ -16,11 +25,7 @@ struct transform_error_t {
 
         template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
-            requires requires {
-                requires same_box<Box,
-                                  typename Traits::template rebind_error<decltype(invoke_with_error(
-                                      std::forward<A>(a).fn, std::forward<Box>(box)))>>;
-            }
+            requires transform_errorable_impl<decltype(box), decltype(std::forward<A>(a).fn)>
         {
             using NewError     = decltype(invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)));
             using NewBox       = typename Traits::template rebind_error<NewError>;
