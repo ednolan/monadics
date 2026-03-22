@@ -60,6 +60,11 @@ concept is_box = _get_box_traits::is_box<std::remove_cvref_t<Box>, // maybe shou
 template <is_box T>
 using get_box_traits = _get_box_traits::traits<std::remove_cvref_t<T>, box_traits<std::remove_cvref_t<T>>>;
 
+template <typename Box>
+concept has_error_channel = requires {
+    { get_box_traits<Box>::error(std::declval<Box>()) };
+};
+
 } // namespace beman::monadics::detail
 
 #endif // BEMAN_MONADICS_DETAIL_GET_BOX_TRAITS_HPP
