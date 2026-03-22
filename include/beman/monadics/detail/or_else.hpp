@@ -12,6 +12,16 @@
 
 namespace beman::monadics::detail {
 
+template <typename NewBox, typename OldBox>
+concept or_elseable_return =
+    (same_box<NewBox, OldBox> || on_error<"Should return the same type of Box">)
+    && (!has_error_channel<OldBox>
+        || (same_box_and_value<NewBox, OldBox> || on_error<"Should return the Box with same value_type">));
+
+template <typename Box, typename Fn>
+concept or_elseable_impl =
+    or_elseable_return<decltype(invoke_with_error(std::declval<Fn>(), std::declval<Box>())), Box>;
+
 struct or_else_t {
     template <typename Fn>
     struct action {
@@ -19,9 +29,7 @@ struct or_else_t {
 
         template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
-            requires requires {
-                { invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)) } -> same_box<Box>;
-            }
+            requires or_elseable_impl<decltype(box), decltype(std::forward<A>(a).fn)>
         {
             using NewBox = decltype(invoke_with_error(std::forward<A>(a).fn, std::forward<Box>(box)));
             if (!Traits::has_value(box)) {
