@@ -133,3 +133,9 @@ int main() {
 | Clang      | 18-17   | C++20         | libstdc++         |
 | AppleClang | latest  | C++26-C++20   | libc++            |
 | MSVC       | latest  | C++23         | MSVC STL          |
+
+---
+
+## License
+
+`beman.monadics` is distributed under the [Apache License v2.0 with LLVM Exceptions](LICENSE).
