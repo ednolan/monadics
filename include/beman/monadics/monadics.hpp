@@ -15,6 +15,7 @@ using detail::and_then;
 using detail::and_thenable;
 using detail::box_traits;
 using detail::get_box_traits;
+using detail::has_error_channel;
 using detail::or_else;
 using detail::or_elseable;
 using detail::transform;
