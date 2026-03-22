@@ -22,4 +22,8 @@ TEST_CASE("without-value") {
     REQUIRE(*result == 1);
 }
 
+TEST_CASE("change-value-type") {
+    STATIC_REQUIRE(or_elseable<std::shared_ptr<int>, decltype([] { return std::shared_ptr<double>{}; })> == true);
+}
+
 } // namespace beman::monadics::tests

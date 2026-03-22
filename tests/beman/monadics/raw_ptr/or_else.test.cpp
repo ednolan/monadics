@@ -32,6 +32,8 @@ TEST_CASE("with-value") {
     STATIC_REQUIRE(value == 10);
 }
 
-// test to don't allow rebind error
+TEST_CASE("change-value-type") {
+    STATIC_REQUIRE(or_elseable<int*, decltype([] { return static_cast<const double*>(nullptr); })>);
+}
 
 } // namespace beman::monadics::tests

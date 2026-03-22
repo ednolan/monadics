@@ -83,6 +83,8 @@ TEMPLATE_TEST_CASE_SIG(
     (
         stdx::expected<int, double>&, [](double&) { return stdx::expected<int, double>{}; }, true),
     (
+        stdx::expected<int, double>&, [](double&) { return stdx::expected<void, double>{}; }, false),
+    (
         stdx::expected<int, double>&, [](double&&) { return stdx::expected<int, double>{}; }, false),
     (
         stdx::expected<int, double>&&, [](double&&) { return stdx::expected<int, double>{}; }, true),
