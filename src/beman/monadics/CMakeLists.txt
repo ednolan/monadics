@@ -3,7 +3,10 @@
 add_library(beman.monadics INTERFACE)
 add_library(beman::monadics ALIAS beman.monadics)
 
-set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(
+    beman.monadics
+    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
+)
 
 target_sources(
     beman.monadics

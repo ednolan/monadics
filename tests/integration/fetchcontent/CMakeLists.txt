@@ -20,6 +20,18 @@ endif()
 FetchContent_Declare(beman_monadics SOURCE_DIR "${BEMAN_MONADICS_SOURCE_DIR}")
 FetchContent_MakeAvailable(beman_monadics)
 
+get_target_property(
+    beman_monadics_verify_headers
+    beman.monadics
+    VERIFY_INTERFACE_HEADER_SETS
+)
+if(beman_monadics_verify_headers)
+    message(
+        FATAL_ERROR
+        "beman.monadics must not set VERIFY_INTERFACE_HEADER_SETS=ON for consumers."
+    )
+endif()
+
 add_executable(beman.monadics.integration.fetchcontent)
 target_sources(beman.monadics.integration.fetchcontent PRIVATE main.cpp)
 target_link_libraries(
