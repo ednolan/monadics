@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+target_sources(
+    beman.monadics
+    PUBLIC
+        FILE_SET HEADERS
+            FILES
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/and_then.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/as_pointer.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/box_traits.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/decomposable.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_box_traits.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_error_fn.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_error_type.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_make_error_fn.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_make_fn.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_rebind.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_rebind_error.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_value_fn.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_value_query_fn.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/get_value_type.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/instance_of.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/invoke_with_value.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/invoke_with_error.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/meta_extract_value_type.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/meta_rebind_error.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/meta_rebind_value.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/or_else.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/rebox_value.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/rebox_error.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_box.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_template.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_unqualified_as.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/transform.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/transform_error.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/utility.hpp
+                ${PROJECT_SOURCE_DIR}/include/beman/monadics/monadics.hpp
+)

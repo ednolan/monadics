@@ -38,7 +38,7 @@ target_sources(
 
 set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
-add_subdirectory(include/beman/monadics)
+add_subdirectory(src/beman/monadics)
 
 beman_install_library(beman.monadics)
 
