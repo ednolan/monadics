@@ -34,7 +34,7 @@ beman_install_library(beman.monadics)
 
 if(BEMAN_MONADICS_BUILD_TESTS)
     enable_testing()
-    add_subdirectory(tests/beman/monadics)
+    add_subdirectory(tests)
 endif()
 
 if(BEMAN_MONADICS_BUILD_EXAMPLES)

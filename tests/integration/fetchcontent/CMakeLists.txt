@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+cmake_minimum_required(VERSION 3.30)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+project(beman.monadics.integration.fetchcontent CXX)
+
+include(FetchContent)
+
+if(NOT DEFINED BEMAN_MONADICS_SOURCE_DIR)
+    message(
+        FATAL_ERROR
+        "BEMAN_MONADICS_SOURCE_DIR must be set to the root of the beman.monadics source tree."
+    )
+endif()
+
+FetchContent_Declare(beman_monadics SOURCE_DIR "${BEMAN_MONADICS_SOURCE_DIR}")
+FetchContent_MakeAvailable(beman_monadics)
+
+add_executable(beman.monadics.integration.fetchcontent)
+target_sources(beman.monadics.integration.fetchcontent PRIVATE main.cpp)
+target_link_libraries(
+    beman.monadics.integration.fetchcontent
+    PRIVATE beman::monadics
+)
