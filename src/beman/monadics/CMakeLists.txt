@@ -45,10 +45,60 @@ target_sources(
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/rebox_value.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/rebox_error.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_box.hpp
-                ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_template.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/same_unqualified_as.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/transform.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/transform_error.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/utility.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/monadics.hpp
 )
+
+if(BEMAN_USE_MODULES)
+    add_library(beman.monadics_detail)
+    target_compile_features(
+        beman.monadics_detail
+        PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
+    )
+    target_compile_definitions(beman.monadics_detail PUBLIC BEMAN_USE_MODULES)
+    target_sources(
+        beman.monadics_detail
+        PUBLIC
+            FILE_SET CXX_MODULES FILES ${CMAKE_CURRENT_SOURCE_DIR}/detail.cppm
+    )
+    target_link_libraries(beman.monadics_detail PUBLIC beman.monadics)
+    set_target_properties(
+        beman.monadics_detail
+        PROPERTIES
+            CXX_VISIBILITY_PRESET hidden
+            VERIFY_INTERFACE_HEADER_SETS OFF
+            VISIBILITY_INLINES_HIDDEN ON
+    )
+
+    add_library(beman.monadics_module)
+    target_compile_features(
+        beman.monadics_module
+        PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
+    )
+    target_compile_definitions(beman.monadics_module PUBLIC BEMAN_USE_MODULES)
+    target_sources(
+        beman.monadics_module
+        PUBLIC
+            FILE_SET CXX_MODULES FILES ${CMAKE_CURRENT_SOURCE_DIR}/monadics.cppm
+    )
+    target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
+    # target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
+    add_library(beman::monadics_module ALIAS beman.monadics_module)
+
+    if(MSVC)
+        set_source_files_properties(
+            ${CMAKE_CURRENT_SOURCE_DIR}/detail.cppm
+            ${CMAKE_CURRENT_SOURCE_DIR}/monadics.cppm
+            PROPERTIES COMPILE_OPTIONS "/wd5244"
+        )
+    else()
+        set_source_files_properties(
+            ${CMAKE_CURRENT_SOURCE_DIR}/detail.cppm
+            ${CMAKE_CURRENT_SOURCE_DIR}/monadics.cppm
+            PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
+        )
+    endif()
+endif()

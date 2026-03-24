@@ -3,10 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_INVOKE_WITH_VALUE_HPP
 #define BEMAN_MONADICS_DETAIL_INVOKE_WITH_VALUE_HPP
 
-#include "beman/monadics/detail/get_box_traits.hpp"
-
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#include <beman/monadics/detail/get_box_traits.hpp>
 #include <concepts>
 #include <utility>
+#endif
 
 namespace beman::monadics::detail {
 

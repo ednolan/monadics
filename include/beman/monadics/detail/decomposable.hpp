@@ -3,7 +3,9 @@
 #ifndef BEMAN_MONADICS_DETAIL_DECOMPOSABLE_HPP
 #define BEMAN_MONADICS_DETAIL_DECOMPOSABLE_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/as_pointer.hpp>
+#endif
 
 namespace beman::monadics::detail {
 

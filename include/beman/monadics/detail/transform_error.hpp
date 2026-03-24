@@ -3,9 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/or_else.hpp>
-
 #include <utility>
+#endif
 
 namespace beman::monadics::detail {
 

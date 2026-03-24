@@ -3,11 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_SAME_BOX_HPP
 #define BEMAN_MONADICS_DETAIL_SAME_BOX_HPP
 
-#include <beman/monadics/detail/same_template.hpp>
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/same_unqualified_as.hpp>
 #include <beman/monadics/detail/get_box_traits.hpp>
-
 #include <concepts>
+#endif
 
 namespace beman::monadics::detail {
 

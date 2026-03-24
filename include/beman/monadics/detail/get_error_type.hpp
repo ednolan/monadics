@@ -3,10 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_ERROR_TYPE_HPP
 #define BEMAN_MONADICS_DETAIL_GET_ERROR_TYPE_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/instance_of.hpp>
 #include <beman/monadics/detail/utility.hpp>
-
 #include <type_traits>
+#endif
 
 namespace beman::monadics::detail {
 

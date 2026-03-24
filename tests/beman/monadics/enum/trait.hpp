@@ -3,6 +3,9 @@
 #ifndef BEMAN_MONADICS_RAW_PTR_TRAIT_HPP
 #define BEMAN_MONADICS_RAW_PTR_TRAIT_HPP
 
+#include <concepts>
+#include <utility>
+
 #include <beman/monadics/monadics.hpp>
 
 extern "C" {

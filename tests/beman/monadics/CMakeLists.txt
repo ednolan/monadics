@@ -59,9 +59,13 @@ foreach(test_dir ${tests})
         target_link_libraries(
             ${test_target}
             PRIVATE
-                beman::monadics
+                ${beman_monadics_target}
                 Catch2::Catch2WithMain
                 beman.monadics.tests.helpers
+        )
+        set_target_properties(
+            ${test_target}
+            PROPERTIES CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
         )
         target_include_directories(
             ${test_target}

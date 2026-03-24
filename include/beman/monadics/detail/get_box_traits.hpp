@@ -3,8 +3,8 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_BOX_TRAITS_HPP
 #define BEMAN_MONADICS_DETAIL_GET_BOX_TRAITS_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <type_traits>
-
 #include <beman/monadics/detail/box_traits.hpp>
 #include <beman/monadics/detail/get_error_fn.hpp>
 #include <beman/monadics/detail/get_error_type.hpp>
@@ -15,6 +15,7 @@
 #include <beman/monadics/detail/get_value_fn.hpp>
 #include <beman/monadics/detail/get_value_query_fn.hpp>
 #include <beman/monadics/detail/get_value_type.hpp>
+#endif
 
 namespace beman::monadics::detail {
 

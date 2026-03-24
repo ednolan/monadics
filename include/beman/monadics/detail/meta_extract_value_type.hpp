@@ -3,9 +3,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_META_EXTRACT_VALUE_TYPE_HPP
 #define BEMAN_MONADICS_DETAIL_META_EXTRACT_VALUE_TYPE_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/decomposable.hpp>
-
 #include <type_traits>
+#endif
 
 namespace beman::monadics::detail {
 

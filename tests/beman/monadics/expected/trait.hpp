@@ -3,9 +3,11 @@
 #ifndef BEMAN_MONADICS_EXPECTED_TRAIT_HPP
 #define BEMAN_MONADICS_EXPECTED_TRAIT_HPP
 
-#include <beman/monadics/monadics.hpp>
-
+#include <concepts>
 #include <type_traits>
+#include <utility>
+
+#include <beman/monadics/monadics.hpp>
 
 namespace stdx {
 

@@ -3,11 +3,12 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_REBIND_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_GET_REBIND_ERROR_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/instance_of.hpp>
 #include <beman/monadics/detail/meta_rebind_error.hpp>
 #include <beman/monadics/detail/utility.hpp>
-
 #include <type_traits>
+#endif
 
 namespace beman::monadics::detail {
 

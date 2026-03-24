@@ -27,6 +27,7 @@ endfunction()
 
 beman_add_fetchcontent_test(default)
 beman_add_fetchcontent_test(strict ${_integration_strict_options})
+beman_add_fetchcontent_test(modules "-DBEMAN_USE_MODULES=ON")
 
 set(_find_package_prefix "${CMAKE_CURRENT_BINARY_DIR}/find_package-prefix")
 
@@ -63,3 +64,4 @@ endfunction()
 
 beman_add_find_package_test(default)
 beman_add_find_package_test(strict ${_integration_strict_options})
+beman_add_find_package_test(modules "-DBEMAN_USE_MODULES=ON")

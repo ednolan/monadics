@@ -4,8 +4,10 @@
 #ifndef BEMAN_MONADICS_DETAIL_INSTANCE_OF_HPP
 #define BEMAN_MONADICS_DETAIL_INSTANCE_OF_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/as_pointer.hpp>
 #include <beman/monadics/detail/decomposable.hpp>
+#endif
 
 namespace beman::monadics::detail {
 

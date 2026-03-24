@@ -3,11 +3,12 @@
 #ifndef BEMAN_MONADICS_DETAIL_REBOX_VALUE_HPP
 #define BEMAN_MONADICS_DETAIL_REBOX_VALUE_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <beman/monadics/detail/same_box.hpp>
-
 #include <type_traits>
 #include <utility>
+#endif
 
 namespace beman::monadics::detail {
 

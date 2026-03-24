@@ -3,7 +3,9 @@
 #ifndef BEMAN_MONADICS_DETAIL_AS_POINTER_HPP
 #define BEMAN_MONADICS_DETAIL_AS_POINTER_HPP
 
+#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 #include <type_traits>
+#endif
 
 namespace beman::monadics::detail {
 

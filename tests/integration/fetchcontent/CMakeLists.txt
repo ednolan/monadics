@@ -13,6 +13,8 @@ if(NOT DEFINED BEMAN_MONADICS_SOURCE_DIR)
     )
 endif()
 
+option(BEMAN_USE_MODULES "" OFF)
+
 FetchContent_Declare(beman_monadics SOURCE_DIR "${BEMAN_MONADICS_SOURCE_DIR}")
 FetchContent_MakeAvailable(beman_monadics)
 
@@ -40,6 +42,23 @@ if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
     )
 endif()
 
+if(BEMAN_USE_MODULES)
+    set(consumer_target beman::monadics_module)
+    get_target_property(
+        defs
+        beman::monadics_module
+        INTERFACE_COMPILE_DEFINITIONS
+    )
+    if(NOT "BEMAN_USE_MODULES" IN_LIST defs)
+        message(
+            FATAL_ERROR
+            "beman::monadics_module must propagate BEMAN_USE_MODULES"
+        )
+    endif()
+else()
+    set(consumer_target beman::monadics)
+endif()
+
 add_executable(beman.monadics.integration.fetchcontent)
 target_sources(
     beman.monadics.integration.fetchcontent
@@ -47,5 +66,9 @@ target_sources(
 )
 target_link_libraries(
     beman.monadics.integration.fetchcontent
-    PRIVATE beman::monadics
+    PRIVATE ${consumer_target}
+)
+set_target_properties(
+    beman.monadics.integration.fetchcontent
+    PROPERTIES CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
 )
