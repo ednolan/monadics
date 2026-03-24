@@ -32,6 +32,18 @@ if(beman_monadics_verify_headers)
     )
 endif()
 
+get_target_property(
+    beman_monadics_interface_features
+    beman.monadics
+    INTERFACE_COMPILE_FEATURES
+)
+if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
+    message(
+        FATAL_ERROR
+        "beman.monadics must advertise cxx_std_20 via INTERFACE_COMPILE_FEATURES"
+    )
+endif()
+
 add_executable(beman.monadics.integration.fetchcontent)
 target_sources(beman.monadics.integration.fetchcontent PRIVATE main.cpp)
 target_link_libraries(

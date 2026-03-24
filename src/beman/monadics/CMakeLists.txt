@@ -3,9 +3,16 @@
 add_library(beman.monadics INTERFACE)
 add_library(beman::monadics ALIAS beman.monadics)
 
+target_compile_features(beman.monadics INTERFACE cxx_std_20)
+
 set_target_properties(
     beman.monadics
-    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
+    PROPERTIES
+        VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS OFF
+        CXX_VISIBILITY_PRESET hidden
+        VISIBILITY_INLINES_HIDDEN ON
 )
 
 target_sources(
