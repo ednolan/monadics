@@ -1,9 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+add_library(beman.monadics INTERFACE)
+add_library(beman::monadics ALIAS beman.monadics)
+
+set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+
 target_sources(
     beman.monadics
     PUBLIC
         FILE_SET HEADERS
+            BASE_DIRS "${PROJECT_SOURCE_DIR}/include"
             FILES
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/and_then.hpp
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/detail/as_pointer.hpp

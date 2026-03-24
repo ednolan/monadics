@@ -28,16 +28,6 @@ option(
 # for find of beman-install-library
 include(infra/cmake/beman-install-library-config.cmake)
 
-add_library(beman.monadics INTERFACE)
-add_library(beman::monadics ALIAS beman.monadics)
-
-target_sources(
-    beman.monadics
-    PUBLIC FILE_SET HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
-
-set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
-
 add_subdirectory(src/beman/monadics)
 
 beman_install_library(beman.monadics)
