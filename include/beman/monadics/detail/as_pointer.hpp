@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_AS_POINTER_HPP
 #define BEMAN_MONADICS_DETAIL_AS_POINTER_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <type_traits>
 #endif
 
@@ -13,5 +17,7 @@ template <typename T>
 inline constexpr auto as_pointer = static_cast<std::remove_cvref_t<T>*>(nullptr);
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_AS_POINTER_HPP

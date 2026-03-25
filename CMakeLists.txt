@@ -2,6 +2,8 @@
 
 cmake_minimum_required(VERSION 3.30...4.3)
 
+set(CMAKE_CXX_SCAN_FOR_MODULES ON)
+
 # Infrastructure for future import std support
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3 AND CMAKE_VERSION VERSION_LESS 4.4)
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD
@@ -51,8 +53,10 @@ add_subdirectory(src/beman/monadics)
 
 if(BEMAN_USE_MODULES)
     set(beman_monadics_target beman.monadics_module)
+    set(beman_monadics_detail_target beman.monadics_detail)
 else()
     set(beman_monadics_target beman.monadics)
+    set(beman_monadics_detail_target beman::monadics)
 endif()
 
 if(BEMAN_USE_MODULES)

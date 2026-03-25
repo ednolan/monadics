@@ -85,7 +85,7 @@ if(BEMAN_USE_MODULES)
             FILE_SET CXX_MODULES FILES ${CMAKE_CURRENT_SOURCE_DIR}/monadics.cppm
     )
     target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
-    # target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
+    target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
     add_library(beman::monadics_module ALIAS beman.monadics_module)
 
     if(MSVC)

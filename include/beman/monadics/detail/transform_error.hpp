@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/or_else.hpp>
 #include <utility>
 #endif
@@ -11,7 +15,7 @@
 namespace beman::monadics::detail {
 
 template <typename NewError, typename Box>
-concept transform_errorable_return = same_box<Box, typename get_box_traits<Box>::template rebind_error<NewError>>
+concept transform_errorable_return = same_box<Box, typename get_box_traits<Box>::template rebind_error<NewError> >
                                   || on_error<"transform_error: fn must return a type compatible with rebind_error">;
 
 template <typename Box, typename Fn>
@@ -24,7 +28,7 @@ struct transform_error_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box> >
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires transform_errorable_impl<decltype(box), decltype(std::forward<A>(a).fn)>
         {
@@ -52,5 +56,7 @@ concept transform_errorable =
     requires(Box&& box, Fn&& fn) { std::forward<Box>(box) | transform_error(std::forward<Fn>(fn)); };
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_TRANSFORM_ERROR_HPP

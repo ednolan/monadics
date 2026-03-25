@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_ERROR_TYPE_HPP
 #define BEMAN_MONADICS_DETAIL_GET_ERROR_TYPE_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/instance_of.hpp>
 #include <beman/monadics/detail/utility.hpp>
 #include <type_traits>
@@ -18,7 +22,7 @@ template <typename Box, typename Traits>
     } else if constexpr (requires { typename Box::error_type; }) {
         return std::type_identity<typename Box::error_type>{};
     } else if constexpr (requires { Traits::error(); }) {
-        return std::type_identity<std::remove_cvref_t<decltype(Traits::error())>>{};
+        return std::type_identity<std::remove_cvref_t<decltype(Traits::error())> >{};
     }
 }
 
@@ -32,5 +36,7 @@ template <typename Box, typename Traits>
 using get_error_type_t = typename decltype(get_error_type<Box, Traits>())::type;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_ERROR_TYPE_HPP

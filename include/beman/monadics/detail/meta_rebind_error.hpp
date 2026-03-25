@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_META_REBIND_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_META_REBIND_ERROR_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/decomposable.hpp>
 #include <type_traits>
 #endif
@@ -19,10 +23,12 @@ struct meta_rebind_error {
 template <decomposable<2> Box>
 [[nodiscard]] consteval auto get_meta_rebind_error() noexcept {
     return []<template <typename...> typename T, typename V, typename E, typename... Args>(T<V, E, Args...>*) {
-        return std::type_identity<meta_rebind_error<T, V, Args...>>{};
+        return std::type_identity<meta_rebind_error<T, V, Args...> >{};
     }(as_pointer<Box>);
 };
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_META_REBIND_ERROR_HPP

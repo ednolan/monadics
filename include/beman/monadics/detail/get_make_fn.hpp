@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_MAKE_FN_HPP
 #define BEMAN_MONADICS_DETAIL_GET_MAKE_FN_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/utility.hpp>
 #include <concepts>
 #include <utility>
@@ -30,5 +34,7 @@ concept has_make_fn = requires {
 } || on_error<"provide Traits::make(T) or a Box{T} constructor">;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_MAKE_FN_HPP

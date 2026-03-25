@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_VALUE_FN_HPP
 #define BEMAN_MONADICS_DETAIL_GET_VALUE_FN_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/utility.hpp>
 #include <utility>
 #endif
@@ -21,8 +25,10 @@ template <typename Box, typename Traits>
 template <typename Box, typename Traits>
 concept has_value_fn = requires {
     { get_value_fn<Box, Traits>() } -> deduced;
-} || on_error<"provide Traits::value(Box) or Box::value()">;
+};
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_VALUE_FN_HPP

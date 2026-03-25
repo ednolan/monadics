@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_SAME_BOX_HPP
 #define BEMAN_MONADICS_DETAIL_SAME_BOX_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/same_unqualified_as.hpp>
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <concepts>
@@ -15,7 +19,7 @@ namespace _same_box {
 
 template <typename NewTraits, typename OldTraits>
 using rebind =
-    get_box_traits<typename OldTraits::template rebind<typename NewTraits::value_type>>::template rebind_error<
+    get_box_traits<typename OldTraits::template rebind<typename NewTraits::value_type> >::template rebind_error<
         typename NewTraits::error_type>;
 
 } // namespace _same_box
@@ -23,7 +27,7 @@ using rebind =
 template <typename T, typename U>
 concept same_box = is_box<T>
                 && is_box<U>
-                && std::same_as<std::remove_cvref_t<T>, _same_box::rebind<get_box_traits<T>, get_box_traits<U>>>;
+                && std::same_as<std::remove_cvref_t<T>, _same_box::rebind<get_box_traits<T>, get_box_traits<U> > >;
 
 template <typename T, typename U>
 concept same_box_and_value =
@@ -34,5 +38,7 @@ concept same_box_and_error =
     same_box<T, U> && std::same_as<typename get_box_traits<T>::error_type, typename get_box_traits<U>::error_type>;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_SAME_BOX_HPP

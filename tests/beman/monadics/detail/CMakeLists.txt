@@ -37,7 +37,7 @@ foreach(test_name ${tests})
     target_link_libraries(
         ${test_target}
         PRIVATE
-            beman::monadics
+            ${beman_monadics_detail_target}
             beman.monadics.tests.helpers
             Catch2::Catch2WithMain
     )

@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_OR_ELSE_HPP
 #define BEMAN_MONADICS_DETAIL_OR_ELSE_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <beman/monadics/detail/rebox_value.hpp>
 #include <beman/monadics/detail/invoke_with_error.hpp>
@@ -28,7 +32,7 @@ struct or_else_t {
     struct action {
         Fn fn;
 
-        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box>>
+        template <is_box Box, same_unqualified_as<action> A, typename Traits = get_box_traits<Box> >
         [[nodiscard]] friend constexpr decltype(auto) operator|(Box&& box, A&& a) noexcept
             requires or_elseable_impl<decltype(box), decltype(std::forward<A>(a).fn)>
         {
@@ -53,5 +57,7 @@ template <typename Box, typename Fn>
 concept or_elseable = requires(Box&& box, Fn&& fn) { std::forward<Box>(box) | or_else(std::forward<Fn>(fn)); };
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_OR_ELSE_HPP

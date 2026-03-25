@@ -4,7 +4,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_INSTANCE_OF_HPP
 #define BEMAN_MONADICS_DETAIL_INSTANCE_OF_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/as_pointer.hpp>
 #include <beman/monadics/detail/decomposable.hpp>
 #endif
@@ -18,5 +22,7 @@ concept instance_of = requires {
 };
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_INSTANCE_OF_HPP

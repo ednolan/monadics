@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_GET_REBIND_HPP
 #define BEMAN_MONADICS_DETAIL_GET_REBIND_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/instance_of.hpp>
 #include <beman/monadics/detail/meta_rebind_value.hpp>
 #include <beman/monadics/detail/utility.hpp>
@@ -33,5 +37,7 @@ template <typename Box, typename Traits, typename T>
 using get_rebind_t = typename decltype(get_rebind<Box, Traits, T>())::type;
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_GET_REBIND_HPP

@@ -3,7 +3,11 @@
 #ifndef BEMAN_MONADICS_DETAIL_INVOKE_WITH_ERROR_HPP
 #define BEMAN_MONADICS_DETAIL_INVOKE_WITH_ERROR_HPP
 
-#if !defined(BEMAN_USE_MODULES) || defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+#if defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
+import beman.monadics.detail;
+#else
+
+#ifndef BEMAN_MONADICS_MODULE_INTERFACE
 #include <beman/monadics/detail/get_box_traits.hpp>
 #include <concepts>
 #include <utility>
@@ -11,7 +15,7 @@
 
 namespace beman::monadics::detail {
 
-template <typename Fn, typename Box, typename Traits = get_box_traits<Box>>
+template <typename Fn, typename Box, typename Traits = get_box_traits<Box> >
 [[nodiscard]] constexpr decltype(auto) invoke_with_error(Fn&& fn, Box&& box) noexcept
     requires requires {
         { Traits::error(std::forward<Box>(box)) };
@@ -26,5 +30,7 @@ template <typename Fn, typename Box, typename Traits = get_box_traits<Box>>
 }
 
 } // namespace beman::monadics::detail
+
+#endif // defined(BEMAN_USE_MODULES) && !defined(BEMAN_MONADICS_DETAIL_MODULE_INTERFACE)
 
 #endif // BEMAN_MONADICS_DETAIL_INVOKE_WITH_ERROR_HPP
