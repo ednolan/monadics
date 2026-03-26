@@ -6,6 +6,13 @@ project(beman.monadics.integration.find_package CXX)
 
 option(BEMAN_USE_MODULES "" OFF)
 
+set(BEMAN_INTEGRATION_CONSUMER_TARGET
+    "beman::monadics"
+    CACHE STRING
+    "Which beman::monadics_* target the integration executable links against"
+)
+option(BEMAN_INTEGRATION_USE_IMPORT_SOURCE "" OFF)
+
 find_package(beman.monadics CONFIG REQUIRED)
 
 get_target_property(
@@ -40,19 +47,22 @@ if(BEMAN_USE_MODULES)
             "beman::monadics must propagate BEMAN_USE_MODULES when built with module support"
         )
     endif()
-    set(consumer_target beman::monadics)
+endif()
+
+if(BEMAN_INTEGRATION_USE_IMPORT_SOURCE)
+    set(_integration_source "${CMAKE_CURRENT_SOURCE_DIR}/../main_import.cpp")
 else()
-    set(consumer_target beman::monadics_headers)
+    set(_integration_source "${CMAKE_CURRENT_SOURCE_DIR}/../main.cpp")
 endif()
 
 add_executable(beman.monadics.integration.find_package)
 target_sources(
     beman.monadics.integration.find_package
-    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../main.cpp"
+    PRIVATE "${_integration_source}"
 )
 target_link_libraries(
     beman.monadics.integration.find_package
-    PRIVATE ${consumer_target}
+    PRIVATE ${BEMAN_INTEGRATION_CONSUMER_TARGET}
 )
 set_target_properties(
     beman.monadics.integration.find_package

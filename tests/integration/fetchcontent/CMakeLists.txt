@@ -15,12 +15,19 @@ endif()
 
 option(BEMAN_USE_MODULES "" OFF)
 
+set(BEMAN_INTEGRATION_CONSUMER_TARGET
+    "beman::monadics"
+    CACHE STRING
+    "Which beman::monadics_* target the integration executable links against"
+)
+option(BEMAN_INTEGRATION_USE_IMPORT_SOURCE "" OFF)
+
 FetchContent_Declare(beman_monadics SOURCE_DIR "${BEMAN_MONADICS_SOURCE_DIR}")
 FetchContent_MakeAvailable(beman_monadics)
 
 get_target_property(
     beman_monadics_verify_headers
-    beman.monadics
+    beman.monadics_headers
     VERIFY_INTERFACE_HEADER_SETS
 )
 if(beman_monadics_verify_headers)
@@ -32,7 +39,7 @@ endif()
 
 get_target_property(
     beman_monadics_interface_features
-    beman.monadics
+    beman.monadics_headers
     INTERFACE_COMPILE_FEATURES
 )
 if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
@@ -42,7 +49,6 @@ if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
     )
 endif()
 
-set(consumer_target beman::monadics)
 if(BEMAN_USE_MODULES)
     get_target_property(defs beman::monadics INTERFACE_COMPILE_DEFINITIONS)
     if(NOT "BEMAN_USE_MODULES" IN_LIST defs)
@@ -53,14 +59,20 @@ if(BEMAN_USE_MODULES)
     endif()
 endif()
 
+if(BEMAN_INTEGRATION_USE_IMPORT_SOURCE)
+    set(_integration_source "${CMAKE_CURRENT_SOURCE_DIR}/../main_import.cpp")
+else()
+    set(_integration_source "${CMAKE_CURRENT_SOURCE_DIR}/../main.cpp")
+endif()
+
 add_executable(beman.monadics.integration.fetchcontent)
 target_sources(
     beman.monadics.integration.fetchcontent
-    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../main.cpp"
+    PRIVATE "${_integration_source}"
 )
 target_link_libraries(
     beman.monadics.integration.fetchcontent
-    PRIVATE ${consumer_target}
+    PRIVATE ${BEMAN_INTEGRATION_CONSUMER_TARGET}
 )
 set_target_properties(
     beman.monadics.integration.fetchcontent
