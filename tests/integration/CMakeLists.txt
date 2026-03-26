@@ -43,7 +43,6 @@ set_tests_properties(
 )
 
 function(beman_add_find_package_test suffix)
-    # Additional cmake options can be passed as extra arguments
     add_test(
         NAME "beman.monadics.integration.find_package.${suffix}"
         COMMAND
@@ -68,13 +67,16 @@ beman_add_find_package_test(modules "-DBEMAN_USE_MODULES=ON")
 
 # Mixed: lib A (headers) + lib B (modules) → lib C → executable D.
 # BEMAN_USE_MODULES is forced ON inside the inner project.
-add_test(
-    NAME beman.monadics.integration.mixed
-    COMMAND
-        ${CMAKE_CTEST_COMMAND} --build-and-test
-        "${CMAKE_CURRENT_SOURCE_DIR}/mixed" "${CMAKE_CURRENT_BINARY_DIR}/mixed"
-        --build-generator "${CMAKE_GENERATOR}" --build-options
-        "-DBEMAN_MONADICS_SOURCE_DIR=${PROJECT_SOURCE_DIR}"
-        ${_integration_common_options} --test-command
-        "${CMAKE_CURRENT_BINARY_DIR}/mixed/beman.monadics.integration.mixed"
-)
+if(BEMAN_USE_MODULES)
+    add_test(
+        NAME beman.monadics.integration.mixed
+        COMMAND
+            ${CMAKE_CTEST_COMMAND} --build-and-test
+            "${CMAKE_CURRENT_SOURCE_DIR}/mixed"
+            "${CMAKE_CURRENT_BINARY_DIR}/mixed" --build-generator
+            "${CMAKE_GENERATOR}" --build-options
+            "-DBEMAN_MONADICS_SOURCE_DIR=${PROJECT_SOURCE_DIR}"
+            ${_integration_common_options} --test-command
+            "${CMAKE_CURRENT_BINARY_DIR}/mixed/beman.monadics.integration.mixed"
+    )
+endif()

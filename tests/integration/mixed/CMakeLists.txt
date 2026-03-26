@@ -13,8 +13,6 @@ if(NOT DEFINED BEMAN_MONADICS_SOURCE_DIR)
     )
 endif()
 
-# Must be set before FetchContent_MakeAvailable so the subproject's
-# if(BEMAN_USE_MODULES) branch fires and creates beman::monadics_module.
 set(BEMAN_USE_MODULES ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(beman_monadics SOURCE_DIR "${BEMAN_MONADICS_SOURCE_DIR}")

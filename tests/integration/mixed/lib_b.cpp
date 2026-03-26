@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 // import must appear before any declarations in a non-module translation unit.
-import beman.monadics;
-
 #include "lib_b.hpp"
 
-#include "optional_box_traits.hpp"
+import beman.monadics;
+// #include "optional_box_traits.hpp"
+
+template <typename T>
+struct beman::monadics::box_traits<std::optional<T>> {
+    [[nodiscard]] inline static constexpr auto error() noexcept { return std::nullopt; }
+};
 
 namespace integration {
 
