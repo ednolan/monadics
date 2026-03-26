@@ -1,12 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-add_library(beman.monadics INTERFACE)
-add_library(beman::monadics ALIAS beman.monadics)
+# --------------------------------------------------------------------------
+# beman::monadics_headers — header-only target, always available
+# --------------------------------------------------------------------------
+add_library(beman.monadics_headers INTERFACE)
+add_library(beman::monadics_headers ALIAS beman.monadics_headers)
 
-target_compile_features(beman.monadics INTERFACE cxx_std_20)
+target_compile_features(beman.monadics_headers INTERFACE cxx_std_20)
 
 set_target_properties(
-    beman.monadics
+    beman.monadics_headers
     PROPERTIES
         VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
         CXX_STANDARD_REQUIRED ON
@@ -16,7 +19,7 @@ set_target_properties(
 )
 
 target_sources(
-    beman.monadics
+    beman.monadics_headers
     PUBLIC
         FILE_SET HEADERS
             BASE_DIRS "${PROJECT_SOURCE_DIR}/include"
@@ -52,19 +55,30 @@ target_sources(
                 ${PROJECT_SOURCE_DIR}/include/beman/monadics/monadics.hpp
 )
 
+# --------------------------------------------------------------------------
+# beman::monadics — smart default target
+#   BEMAN_USE_MODULES=OFF: pure headers (= beman::monadics_headers)
+#   BEMAN_USE_MODULES=ON:  module + shim (propagates BEMAN_USE_MODULES)
+# --------------------------------------------------------------------------
+add_library(beman.monadics INTERFACE)
+add_library(beman::monadics ALIAS beman.monadics)
+target_compile_features(beman.monadics INTERFACE cxx_std_20)
+
 if(BEMAN_USE_MODULES)
+    # --------------------------------------------------------------------------
+    # beman.monadics_detail — internal module (beman.monadics.detail)
+    # --------------------------------------------------------------------------
     add_library(beman.monadics_detail)
     target_compile_features(
         beman.monadics_detail
         PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
     )
-    target_compile_definitions(beman.monadics_detail PUBLIC BEMAN_USE_MODULES)
     target_sources(
         beman.monadics_detail
         PUBLIC
             FILE_SET CXX_MODULES FILES ${CMAKE_CURRENT_SOURCE_DIR}/detail.cppm
     )
-    target_link_libraries(beman.monadics_detail PUBLIC beman.monadics)
+    target_link_libraries(beman.monadics_detail PUBLIC beman.monadics_headers)
     set_target_properties(
         beman.monadics_detail
         PROPERTIES
@@ -73,20 +87,30 @@ if(BEMAN_USE_MODULES)
             VISIBILITY_INLINES_HIDDEN ON
     )
 
+    # --------------------------------------------------------------------------
+    # beman::monadics_module — explicit module target, BEMAN_USE_MODULES PRIVATE
+    # Consumers that write `import beman.monadics` directly use this target.
+    # --------------------------------------------------------------------------
     add_library(beman.monadics_module)
     target_compile_features(
         beman.monadics_module
         PUBLIC cxx_std_${CMAKE_CXX_STANDARD}
     )
-    target_compile_definitions(beman.monadics_module PUBLIC BEMAN_USE_MODULES)
     target_sources(
         beman.monadics_module
         PUBLIC
             FILE_SET CXX_MODULES FILES ${CMAKE_CURRENT_SOURCE_DIR}/monadics.cppm
     )
     target_link_libraries(beman.monadics_module PRIVATE beman.monadics_detail)
-    target_link_libraries(beman.monadics_module PUBLIC beman.monadics)
+    target_link_libraries(beman.monadics_module PUBLIC beman.monadics_headers)
     add_library(beman::monadics_module ALIAS beman.monadics_module)
+
+    # Smart target in module mode: module BMI + BEMAN_USE_MODULES shim.
+    # BEMAN_USE_MODULES propagates to consumers so that
+    # #include <beman/monadics/monadics.hpp> transparently becomes
+    # `import beman.monadics`. This is intentional and project-wide.
+    target_link_libraries(beman.monadics INTERFACE beman.monadics_module)
+    target_compile_definitions(beman.monadics INTERFACE BEMAN_USE_MODULES)
 
     if(MSVC)
         set_source_files_properties(
@@ -101,4 +125,7 @@ if(BEMAN_USE_MODULES)
             PROPERTIES COMPILE_OPTIONS "-Wno-include-angled-in-module-purview"
         )
     endif()
+else()
+    # Smart target in header mode: pure headers.
+    target_link_libraries(beman.monadics INTERFACE beman.monadics_headers)
 endif()

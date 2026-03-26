@@ -11,4 +11,6 @@ foreach(example ${ALL_EXAMPLES})
         beman.monadics.examples.${example}
         PRIVATE beman::monadics
     )
+
+    # PROPERTIES CXX_SCAN_FOR_MODULES ${BEMAN_USE_MODULES}
 endforeach()

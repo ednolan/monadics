@@ -42,21 +42,15 @@ if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
     )
 endif()
 
+set(consumer_target beman::monadics)
 if(BEMAN_USE_MODULES)
-    set(consumer_target beman::monadics_module)
-    get_target_property(
-        defs
-        beman::monadics_module
-        INTERFACE_COMPILE_DEFINITIONS
-    )
+    get_target_property(defs beman::monadics INTERFACE_COMPILE_DEFINITIONS)
     if(NOT "BEMAN_USE_MODULES" IN_LIST defs)
         message(
             FATAL_ERROR
-            "beman::monadics_module must propagate BEMAN_USE_MODULES"
+            "beman::monadics must propagate BEMAN_USE_MODULES when built with module support"
         )
     endif()
-else()
-    set(consumer_target beman::monadics)
 endif()
 
 add_executable(beman.monadics.integration.fetchcontent)

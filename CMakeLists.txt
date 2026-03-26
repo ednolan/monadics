@@ -43,7 +43,7 @@ option(
 
 option(
     BEMAN_USE_MODULES
-    "Enable C++20 module targets (beman::monadics_module). Default: OFF. Values: { ON, OFF }."
+    "Enable C++20 module targets (beman::monadics_module, beman::monadics). Default: OFF. Values: { ON, OFF }."
     OFF
 )
 
@@ -51,18 +51,19 @@ include(infra/cmake/beman-install-library.cmake)
 
 add_subdirectory(src/beman/monadics)
 
-if(BEMAN_USE_MODULES)
-    set(beman_monadics_target beman.monadics_module)
-    set(beman_monadics_detail_target beman.monadics_detail)
-else()
-    set(beman_monadics_target beman.monadics)
-    set(beman_monadics_detail_target beman::monadics)
-endif()
+# beman_monadics_target: the default target for unit tests.
+# beman::monadics is the smart target — headers in header mode, module+shim in module mode.
+set(beman_monadics_target beman.monadics)
 
 if(BEMAN_USE_MODULES)
-    beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_detail beman.monadics_module)
+    set(beman_monadics_detail_target beman.monadics_detail)
+    beman_install_library(
+        beman.monadics
+        TARGETS beman.monadics beman.monadics_headers beman.monadics_detail beman.monadics_module
+    )
 else()
-    beman_install_library(beman.monadics TARGETS beman.monadics)
+    set(beman_monadics_detail_target beman.monadics_headers)
+    beman_install_library(beman.monadics TARGETS beman.monadics beman.monadics_headers)
 endif()
 
 if(BEMAN_MONADICS_BUILD_TESTS)

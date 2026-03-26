@@ -2,6 +2,8 @@
 
 cmake_minimum_required(VERSION 3.30)
 
+set(CMAKE_COLOR_DIAGNOSTICS ON)
+
 project(beman.monadics.integration.mixed CXX)
 
 include(FetchContent)
@@ -20,7 +22,7 @@ FetchContent_MakeAvailable(beman_monadics)
 
 add_library(lib_a lib_a.cpp)
 target_include_directories(lib_a PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(lib_a PUBLIC beman::monadics)
+target_link_libraries(lib_a PUBLIC beman::monadics_headers)
 
 add_library(lib_b lib_b.cpp)
 target_include_directories(lib_b PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")

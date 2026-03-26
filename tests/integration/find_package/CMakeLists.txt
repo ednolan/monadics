@@ -10,7 +10,7 @@ find_package(beman.monadics CONFIG REQUIRED)
 
 get_target_property(
     beman_monadics_verify_headers
-    beman::monadics
+    beman::monadics_headers
     VERIFY_INTERFACE_HEADER_SETS
 )
 if(beman_monadics_verify_headers)
@@ -22,7 +22,7 @@ endif()
 
 get_target_property(
     beman_monadics_interface_features
-    beman::monadics
+    beman::monadics_headers
     INTERFACE_COMPILE_FEATURES
 )
 if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
@@ -33,20 +33,20 @@ if(NOT "cxx_std_20" IN_LIST beman_monadics_interface_features)
 endif()
 
 if(BEMAN_USE_MODULES)
-    set(consumer_target beman::monadics_module)
-    get_target_property(
-        defs
-        beman::monadics_module
-        INTERFACE_COMPILE_DEFINITIONS
-    )
+    get_target_property(defs beman::monadics INTERFACE_COMPILE_DEFINITIONS)
     if(NOT "BEMAN_USE_MODULES" IN_LIST defs)
         message(
             FATAL_ERROR
-            "beman::monadics_module must propagate BEMAN_USE_MODULES"
+            "beman::monadics must propagate BEMAN_USE_MODULES when built with module support"
         )
     endif()
+    # Use beman::monadics_module directly: the smart beman::monadics target
+    # propagates BEMAN_USE_MODULES correctly, but CMake does not propagate
+    # the module BMI resolver through transitive INTERFACE links in the
+    # find_package case. Linking the module target directly works.
+    set(consumer_target beman::monadics_module)
 else()
-    set(consumer_target beman::monadics)
+    set(consumer_target beman::monadics_headers)
 endif()
 
 add_executable(beman.monadics.integration.find_package)
