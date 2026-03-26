@@ -40,11 +40,7 @@ if(BEMAN_USE_MODULES)
             "beman::monadics must propagate BEMAN_USE_MODULES when built with module support"
         )
     endif()
-    # Use beman::monadics_module directly: the smart beman::monadics target
-    # propagates BEMAN_USE_MODULES correctly, but CMake does not propagate
-    # the module BMI resolver through transitive INTERFACE links in the
-    # find_package case. Linking the module target directly works.
-    set(consumer_target beman::monadics_module)
+    set(consumer_target beman::monadics)
 else()
     set(consumer_target beman::monadics_headers)
 endif()
