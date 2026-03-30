@@ -34,41 +34,111 @@ ptr | and_then(f) | transform(g) | or_else(h);
 
 ## The Box Abstraction
 
-A "box" is any type that:
+A "box" is any type that can hold a value or signal absence/failure. Its capabilities are
+expressed as a traits class users specialize: `box_traits<T>`.
 
-- reports whether it holds a value (`has_value`)
-- provides access to the value (`value`)
-- provides access to the error or absence sentinel (`error`)
-- can be reconstructed from a value (`make`) or an error (`make_error`)
-- knows how to rebind its value type (`rebind<U>`) and error type (`rebind_error<E>`)
+The full interface — what a from-scratch specialization looks like:
 
-These capabilities are expressed as a traits class users specialize: `box_traits<T>`.
+```cpp
+template <typename T>
+struct beman::monadics::box_traits<MyBox<T>> {
+    // --- Types -----------------------------------------------------------
 
-## Why a Traits Class, Not a Concept or CRTP Base?
+    using value_type = T;
+    using error_type = int;
 
-| Approach | Problem |
-|---|---|
-| Member-function concept | Cannot add members to existing types; intrusive |
-| CRTP base | Requires inheritance; breaks for `final` classes and third-party types |
-| Traits specialization | Non-intrusive, retroactively applicable to any type |
+    template <typename U> using rebind       = MyBox<U>;
+    template <typename E> using rebind_error = MyBox<T, E>;
 
-The traits pattern follows the precedent of `std::iterator_traits`, `std::char_traits`, and
-`std::numeric_limits`. It separates the "what" (the box type) from the "how" (the trait
-implementation) without touching the type itself.
+    // --- Queries ---------------------------------------------------------
 
-## Auto-Deduction
+    // Reports whether the box holds a value.
+    [[nodiscard]] static bool has_value(const MyBox<T>&) noexcept;
 
-For types that already expose a compatible interface, an empty specialization suffices:
+    // Accesses the value; forwards the box's value category.
+    [[nodiscard]] static decltype(auto) value(auto&& box) noexcept;
+
+    // Accesses the error or absence sentinel. Two forms:
+    //   nullary — sentinel is a constant (e.g. std::nullopt, nullptr)
+    //   unary   — error is stored inside the box (e.g. std::expected)
+    [[nodiscard]] static auto           error() noexcept;           // nullary
+    [[nodiscard]] static decltype(auto) error(auto&& box) noexcept; // unary
+
+    // --- Construction ----------------------------------------------------
+
+    // Constructs a box holding a value.
+    [[nodiscard]] static MyBox<T>    make(T v);
+
+    // Constructs a box holding an error. Enables transform_error.
+    [[nodiscard]] static MyBox<T, E> make_error(int e);
+};
+```
+
+## Adapting an Existing Type
+
+Most real types already expose part of this interface. The library runs a deduction cascade
+for each capability: it checks the explicit specialization first, then the box type's own
+members, then the template parameters. You only need to supply what it cannot find on its own.
+
+### When everything is deducible — empty specialization
+
+`std::expected<T, E>` already has `has_value()`, `value()`, `error()`, nested `value_type`
+and `error_type`, and two template parameters that the library uses for rebind deduction.
+There is nothing left to provide:
 
 ```cpp
 template <typename T, typename E>
 struct beman::monadics::box_traits<std::expected<T, E>> {};
 ```
 
-The library internally runs a deduction cascade (`get_value_fn`, `get_error_fn`, etc.) that
-probes the type for each capability in priority order: explicit trait override first, then
-member function, then deduced from structure. This keeps the opt-in lightweight for
-well-structured types while remaining fully customizable for others.
+All four operations work immediately.
+
+### When a few pieces are missing — minimal specialization
+
+`std::optional<T>` has `has_value()`, `value()`, and `value_type`, but it has no `error()`
+member and no `error_type`. The absence sentinel `std::nullopt` is a compile-time constant,
+not something stored in the box, so the library cannot derive it. One member is enough:
+
+```cpp
+template <typename T>
+struct beman::monadics::box_traits<std::optional<T>> {
+    [[nodiscard]] static constexpr auto error() noexcept { return std::nullopt; }
+};
+```
+
+From this single function the library derives `error_type` (`std::nullopt_t`), and because
+`optional` has only one template parameter every `rebind_error<E>` maps back to `optional<T>`,
+so `has_error_channel<optional<T>>` is false and `transform_error` is automatically disabled.
+
+## Why a Traits Class, Not a Concept or CRTP Base?
+
+The central requirement is that the library must work retroactively — for types that already
+exist and cannot be modified. Consider `std::shared_ptr<T>`. It has no `error()` member, no
+`value_type`, no `make_error`. A concept-gated free function can constrain usage but cannot
+supply missing members. A CRTP base requires inheritance, which is impossible for standard
+library types and breaks for any `final` class.
+
+A traits specialization adds the missing pieces without touching `std::shared_ptr` at all:
+
+```cpp
+template <typename T>
+struct beman::monadics::box_traits<std::shared_ptr<T>> {
+    static bool          has_value(const std::shared_ptr<T>& p) noexcept { return static_cast<bool>(p); }
+    static decltype(auto) value(auto&& p) noexcept                       { return *std::forward<decltype(p)>(p); }
+    static std::shared_ptr<T> error() noexcept                           { return nullptr; }
+    static std::shared_ptr<T> make(T v)                                  { return std::make_shared<T>(std::move(v)); }
+};
+```
+
+| Approach | Problem |
+|---|---|
+| Member-function concept | Requires the type to already expose the right interface; cannot retrofit |
+| CRTP base | Requires inheritance; impossible for `final` classes and third-party types |
+| **Traits specialization** | **Non-intrusive, retroactively applicable to any type** |
+
+The traits pattern follows the precedent of `std::iterator_traits`, `std::char_traits`, and
+`std::numeric_limits`. It separates the "what" (the box type) from the "how" (the trait
+implementation) without touching the type itself.
 
 ## Extensibility
 
@@ -121,19 +191,21 @@ pattern used by the library's own operations:
 ```cpp
 struct value_or_t {
     template <typename T>
-    struct action { T fallback; };
+    struct action {
+        T fallback;
+
+        template <beman::monadics::is_box Box>
+        friend auto operator|(Box&& box, action a) {
+            using Traits = beman::monadics::get_box_traits<Box>;
+            if (Traits::has_value(box))
+                return Traits::value(std::forward<Box>(box));
+            return std::move(a.fallback);
+        }
+    };
 
     template <typename T>
     auto operator()(T fallback) const { return action<T>{std::move(fallback)}; }
 };
-
-template <beman::monadics::is_box Box, typename T>
-auto operator|(Box&& box, value_or_t::action<T> a) {
-    using Traits = beman::monadics::get_box_traits<Box>;
-    if (Traits::has_value(box))
-        return Traits::value(std::forward<Box>(box));
-    return std::move(a.fallback);
-}
 
 inline constexpr value_or_t value_or{};
 ```
