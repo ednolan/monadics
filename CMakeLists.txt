@@ -2,13 +2,12 @@
 
 cmake_minimum_required(VERSION 3.30...4.3)
 
-set(CMAKE_LINK_DEPENDS_NO_SHARED ${BUILD_SHARED_LIBS})
-
 project(
-    beman.monadics
+    beman.monadics # CMake Project Name, which is also the name of the top-level
+    # targets (e.g., library, executable, etc.).
     DESCRIPTION "Freestanding monadic operations"
     LANGUAGES CXX
-    VERSION 0.0.1
+    VERSION 0.1.0
 )
 
 # [CMAKE.SKIP_TESTS]
@@ -26,7 +25,7 @@ option(
 )
 
 # for find of beman-install-library
-include(infra/cmake/beman-install-library-config.cmake)
+include(infra/cmake/beman-install-library.cmake)
 
 add_library(beman.monadics INTERFACE)
 add_library(beman::monadics ALIAS beman.monadics)
@@ -36,11 +35,14 @@ target_sources(
     PUBLIC FILE_SET HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
-set_target_properties(beman.monadics PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(
+    beman.monadics
+    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_subdirectory(include/beman/monadics)
 
-beman_install_library(beman.monadics)
+beman_install_library(beman.monadics TARGETS beman.monadics)
 
 if(BEMAN_MONADICS_BUILD_TESTS)
     enable_testing()
